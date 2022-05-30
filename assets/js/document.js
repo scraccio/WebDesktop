@@ -249,7 +249,7 @@ function newDocument(num) {
         icondiv.textContent = 'Documento';
     }
     else{
-        icondiv.textContent = 'Documento(' + num + ")";;
+        icondiv.textContent = 'Documento(' + num + ")";
     }
     div.appendChild(icondiv);
 
@@ -259,7 +259,6 @@ function newDocument(num) {
         currentColumn++;
     }
     
-    assignIconBehaviour('document', 'document-icon', num);
     div.onclick = (e) => {
         e.stopPropagation();
         if(document.getElementById('document' + num)){
@@ -322,5 +321,14 @@ function newDocument(num) {
             documento.createDocument();
         }
         
+    }
+
+    let menu = document.createElement('div');
+
+    div.oncontextmenu = (e) =>{
+        e.stopPropagation();
+        e.preventDefault();
+        removeActiveDivs();
+        createContextMenu(e, 'document', menu, num);
     }
 }

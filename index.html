@@ -294,7 +294,7 @@
 		#thirdText:hover,
 		#blocco1:hover,
 		#blocco2:hover,
-		#blocco3:hover{
+		#blocco3:hover {
 			background-color: rgb(120, 120, 120);
 		}
 
@@ -311,6 +311,12 @@
 			font-size: 16px;
 			padding: 4px;
 			box-sizing: border-box;
+		}
+
+		.textFieldDoc::selection,
+		.textFieldDoc>div::selection {
+			color: white;
+			background: black;
 		}
 	</style>
 </head>
@@ -392,22 +398,17 @@
 			fishyCount++;
 		}
 
-		for(let i=0; i<fileArray.length; i++){
+		for (let i = 0; i < fileArray.length; i++) {
 			newDocument(fileArray[i]);
 		}
 
-
-		for (let i = 0; i < document.getElementsByClassName('terminal-icon').length; i++) {
+		/*for (let i = 0; i < document.getElementsByClassName('terminal-icon').length; i++) {
 			assignIconBehaviour('terminal', 'terminal-icon', i);
 		}
 
 		for (let i = 0; i < document.getElementsByClassName('fishy-icon').length; i++) {
 			assignIconBehaviour('fishy', 'fishy-icon', i);
-		}
-
-		for (let i = 0; i < document.getElementsByClassName('document-icon').length; i++) {
-			assignIconBehaviour('document', 'document-icon', i);
-		}
+		}*/
 
 		document.addEventListener('contextmenu', (e) => {
 			e.preventDefault();
@@ -460,14 +461,14 @@
 					blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
 					blocco1.onclick = () => {
 						menu.remove();
-						if(fileArray.length > 0){
-							newDocument(fileArray[fileArray.length-1]+1);
-							fileArray[fileArray.length] = fileArray[fileArray.length-1]+1;
+						if (fileArray.length > 0) {
+							newDocument(fileArray[fileArray.length - 1] + 1);
+							fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
 						}
-						else{
+						else {
 							newDocument(documentCount);
 						}
-						
+
 					}
 					blocco.appendChild(blocco1);
 
@@ -515,26 +516,23 @@
 					let secondText = document.createElement("div");
 					secondText.id = 'secondText';
 					secondText.onclick = () => {
-						if(clipboard.id.includes('terminal')){
-							let s = clipboard.id.slice(12);
-							assignIconBehaviour('terminal', clipboard.id, parseInt(s));
+						let c;
+						if(clipboard == 'terminal'){
+							c = terminalCount;
+							createIcon(clipboard, c);
 						}
-						if(clipboard.id.includes('fishy')){
-							let s = clipboard.id.slice(9);
-							assignIconBehaviour('fishy', clipboard.id, parseInt(s));
+						if(clipboard == 'fishy'){
+							c = fishyCount;
+							createIcon(clipboard, c);
 						}
-						document.getElementById('column' + currentColumn).appendChild(clipboard);
-						currElementsCol++;
-						if (currElementsCol == 5) {
-							currElementsCol = 0;
-							currentColumn++;
-						}
-						console.log(clipboard.id);
-						if(clipboard.id.includes('terminal')){
-							terminalCount++;
-						}
-						if(clipboard.id.includes('fishy')){
-							fishyCount++;
+						if(clipboard == 'document'){
+							if (fileArray.length > 0) {
+								newDocument(fileArray[fileArray.length - 1] + 1);
+								fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
+							}
+							else {
+								newDocument(documentCount);
+							}
 						}
 
 						clipboard = undefined;
