@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Esercizio 7</title>
+	<link rel="stylesheet" type="text/css"
+		href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+		@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+		html,
+		body {
+			color: white;
+			font-family: "Ubuntu";
+			background: rgb(64, 219, 226);
+			background: linear-gradient(20deg, rgb(9, 0, 174) 0%, rgb(177, 95, 236) 100%);
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.container {
+			width: 50%;
+			height: 55%;
+			position: absolute;
+			left: 20%;
+			top: 20%;
+			box-shadow: 3px 3px 10px rgb(14, 14, 14);
+			border-top-right-radius: 5px;
+			border-top-left-radius: 5px;
+			border-bottom-right-radius: 1%;
+			border-bottom-left-radius: 1%;
+		}
+
+		#containerDesktop {
+			display: flex;
+			width: 100%;
+			height: calc(100% - 50px);
+			flex-direction: row;
+		}
+
+		.menu,
+		.fishyMenu {
+			border: 1px;
+			background: rgb(255, 255, 255);
+			background: linear-gradient(0deg, rgb(60, 60, 55) 0%, rgb(79, 78, 73) 100%);
+			border-top-right-radius: 5px;
+			border-top-left-radius: 5px;
+			cursor: move;
+			height: 35px;
+			width: 100%;
+			position: sticky;
+			padding: 7px;
+			user-select: none;
+			box-sizing: border-box;
+		}
+
+		.button {
+			width: 17px;
+			height: 17px;
+			vertical-align: middle;
+			border-radius: 10px;
+			cursor: pointer;
+			position: relative;
+			border: 1px solid rgb(55, 55, 55);
+		}
+
+		.menuEntry1 {
+			background: linear-gradient(0deg, rgb(223, 80, 30) 0%, rgb(242, 133, 100) 100%);
+			margin-left: 3px;
+			text-align: center;
+			color: rgb(68, 68, 68);
+			display: inline-block;
+		}
+
+		.menuEntry1:hover {
+			background: linear-gradient(0deg, rgb(200, 60, 10) 0%, rgb(242, 111, 71) 100%);
+		}
+
+		.menuCross {
+			position: absolute;
+			font-size: 10px;
+			font-weight: bolder;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.menuEntry2,
+		.menuEntry3 {
+			background: linear-gradient(0deg, rgb(90, 90, 90) 0%, rgb(132, 132, 132) 100%);
+			color: rgb(68, 68, 68);
+			display: inline-block;
+		}
+
+		.menuEntry2:hover,
+		.menuEntry3:hover {
+			background: linear-gradient(0deg, rgb(70, 70, 70) 0%, rgb(122, 122, 122) 100%);
+		}
+
+		.menuMinimize {
+			position: absolute;
+			font-size: 12px;
+			left: 50%;
+			top: 53%;
+			transform: translate(-50%, -50%);
+		}
+
+		.menuMaximize {
+			position: absolute;
+			font-size: 18px;
+			left: 49%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.menuEntry4 {
+			margin-bottom: 2px;
+			margin-left: 8px;
+			border-radius: 10px;
+			font-size: 15px;
+			white-space: wrap;
+			vertical-align: middle;
+			display: inline-block;
+		}
+
+		.textField {
+			width: 100%;
+			height: calc(100% - 34px);
+			position: absolute;
+			top: 34px;
+			overflow: auto;
+			border-bottom-right-radius: 1%;
+			border-bottom-left-radius: 1%;
+			background-color: rgb(71, 26, 52);
+			display: block;
+			font-size: 16px;
+			padding: 4px;
+			box-sizing: border-box;
+		}
+
+		::selection {
+			color: rgb(48, 19, 36);
+			background: white;
+		}
+
+		#column1,
+		#column2,
+		#column3,
+		#column4,
+		#column5,
+		#column6,
+		#column7,
+		#column8,
+		#column9,
+		#column10 {
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			width: 100px;
+			height: calc(100% - 70px);
+		}
+
+		.terminal-icon,
+		.fishy-icon,
+		.document-icon {
+			position: relative;
+			left: 0;
+			top: 0;
+			margin: 10px;
+			width: 100px;
+			flex: 100px 0 0;
+			aspect-ratio: 1/1;
+			border-radius: 15px;
+			margin-top: 10px;
+			cursor: pointer;
+		}
+
+		.terminal-icon>img {
+			width: 75%;
+			height: 75%;
+			border: 4px solid white;
+			border-radius: 10px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -58%);
+			-webkit-user-drag: none;
+		}
+
+		.fishy-icon>img {
+			width: 75%;
+			height: 75%;
+			border-radius: 10px;
+			border: 4px solid white;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -58%);
+			-webkit-user-drag: none;
+		}
+
+		.document-icon>img {
+			width: 75%;
+			height: 75%;
+			border: 4px solid white;
+			border-radius: 10px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -58%);
+			-webkit-user-drag: none;
+		}
+
+		.bottom-bar {
+			width: 100%;
+			height: 50px;
+			background-color: rgb(2, 0, 46);
+			position: absolute;
+			bottom: 0;
+			z-index: 2;
+		}
+
+		.bottom-bar-element {
+			background-color: rgb(2, 0, 46);
+		}
+
+		.bottom-bar-element:hover {
+			background-color: rgb(5, 0, 80);
+		}
+
+		.icon-text {
+			position: absolute;
+			bottom: -5px;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 13px;
+		}
+
+		.start-button {
+			position: relative;
+			display: inline-block;
+			width: 50px;
+			height: 100%;
+			background-color: rgb(2, 0, 46);
+		}
+
+		#flagtopleft,
+		#flagtopright,
+		#flagbottomleft,
+		#flagbottomright {
+			position: absolute;
+			width: 9px;
+			height: 9px;
+			background-color: white;
+		}
+
+		#flagtopleft {
+			top: 15px;
+			left: 15px;
+		}
+
+		#flagtopright {
+			top: 15px;
+			left: 26px;
+		}
+
+		#flagbottomleft {
+			top: 26px;
+			left: 15px;
+		}
+
+		#flagbottomright {
+			top: 26px;
+			left: 26px;
+		}
+
+		.start-button:hover {
+			background-color: rgb(5, 0, 80);
+		}
+
+		.start-button:hover>#flagtopleft,
+		.start-button:hover>#flagtopright,
+		.start-button:hover>#flagbottomleft,
+		.start-button:hover>#flagbottomright {
+			background-color: yellow;
+		}
+
+		#firstText:hover,
+		#secondText:hover,
+		#thirdText:hover,
+		#blocco1:hover,
+		#blocco2:hover,
+		#blocco3:hover{
+			background-color: rgb(120, 120, 120);
+		}
+
+		.textFieldDoc {
+			width: 100%;
+			height: calc(100% - 34px);
+			position: absolute;
+			top: 34px;
+			overflow: auto;
+			border-bottom-right-radius: 1%;
+			border-bottom-left-radius: 1%;
+			background-color: white;
+			display: block;
+			font-size: 16px;
+			padding: 4px;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="containerDesktop">
+		<div id="column1">
+
+			<!-- 
+			<div class="terminal-icon icon" id="terminalIcon0" onclick="newTerminal();">
+				<img src="assets/img/terminal.png">
+				<div class="icon-text">Terminal</div>
+			</div>
+
+			<div class="fishy-icon icon" id="fishyIcon0" onclick="fishy();">
+				<img src="assets/img/fishy.jpg">
+				<div class="icon-text">Fishy</div>
+			</div>
+			-->
+		</div>
+		<div id="column2"></div>
+		<div id="column3"></div>
+		<div id="column4"></div>
+		<div id="column5"></div>
+		<div id="column6"></div>
+		<div id="column7"></div>
+		<div id="column8"></div>
+		<div id="column9"></div>
+		<div id="column10"></div>
+	</div>
+
+
+
+	<div class="bottom-bar" oncontextmenu="event.preventDefault();event.stopPropagation();">
+		<div class="start-button">
+			<div id="flagtopleft"></div>
+			<div id="flagtopright"></div>
+			<div id="flagbottomleft"></div>
+			<div id="flagbottomright"></div>
+		</div>
+	</div>
+
+	<script src="assets/js/document.js"></script>
+	<script src="assets/js/fishy.js"></script>
+	<script src="assets/js/terminal.js"></script>
+	<script src="assets/js/functions.js"></script>
+	<script>
+
+		let objArray = [];
+		let terminalCount = 0;
+		let fishyCount = 0;
+		let documentCount = 0;
+		let clipboard;
+		let currentColumn = 1;
+		let currElementsCol = 0;
+		let copied = false;
+		let openTerminal = 0;
+		let openFishy = 0;
+
+		let fileArray = [];
+
+		localStorage.setItem('terminalCount', 1);
+		localStorage.setItem('fishyCount', 1);
+
+		for (let i = 0; i < localStorage.length; i++) {
+			if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
+				fileArray.push(parseInt(localStorage.key(i).slice(8)));
+			}
+		}
+		fileArray = fileArray.sort(function (a, b) {return a - b;});
+
+		for (let i = 0; i < localStorage.getItem('terminalCount'); i++) {
+			createIcon('terminal', i);
+			terminalCount++;
+		}
+
+		for (let i = 0; i < localStorage.getItem('fishyCount'); i++) {
+			createIcon('fishy', i);
+			fishyCount++;
+		}
+
+		for(let i=0; i<fileArray.length; i++){
+			newDocument(fileArray[i]);
+		}
+
+
+		for (let i = 0; i < document.getElementsByClassName('terminal-icon').length; i++) {
+			assignIconBehaviour('terminal', 'terminal-icon', i);
+		}
+
+		for (let i = 0; i < document.getElementsByClassName('fishy-icon').length; i++) {
+			assignIconBehaviour('fishy', 'fishy-icon', i);
+		}
+
+		for (let i = 0; i < document.getElementsByClassName('document-icon').length; i++) {
+			assignIconBehaviour('document', 'document-icon', i);
+		}
+
+		document.addEventListener('contextmenu', (e) => {
+			e.preventDefault();
+			setTimeout(() => {
+				removeActiveDivs();
+
+				let menu = document.createElement("div");
+				document.body.appendChild(menu);
+
+				var x = e.clientX;
+				var y = e.clientY;
+
+				menu.id = 'contextmenu';
+				menu.style.position = "fixed";
+				menu.style.left = x + 10 + "px";
+				if (y >= window.innerHeight - 50) {
+					menu.style.top = (y - 20) + "px";
+				}
+				else {
+					menu.style.top = y + "px";
+				}
+				menu.style.width = '90px';
+				menu.style.height = '22px';
+				menu.style.backgroundColor = 'rgb(100, 100, 100)';
+				//menu.style.paddingTop = '2px';
+				menu.style.boxSizing = 'border-box';
+				menu.style.border = '1px solid black';
+				menu.style.zIndex = 3;
+
+				let firstText = document.createElement("div");
+				firstText.id = 'firstText';
+				firstText.onclick = (e) => {
+					e.stopPropagation();
+					let blocco = document.createElement('div');
+					blocco.id = 'blocco';
+					blocco.style.position = 'absolute';
+					blocco.style.top = '-1px';
+					blocco.style.left = '88px'
+					blocco.style.border = '1px solid black';
+					blocco.style.backgroundColor = 'rgb(100, 100, 100)';
+					blocco.style.height = '79px';
+					firstText.appendChild(blocco);
+
+					let blocco1 = document.createElement('div');
+					blocco1.id = 'blocco1';
+					blocco1.style.position = 'relative';
+					blocco1.style.top = 0;
+					blocco1.style.left = 0;
+					blocco1.textContent = 'Documento di testo';
+					blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco1.onclick = () => {
+						menu.remove();
+						if(fileArray.length > 0){
+							newDocument(fileArray[fileArray.length-1]+1);
+							fileArray[fileArray.length] = fileArray[fileArray.length-1]+1;
+						}
+						else{
+							newDocument(documentCount);
+						}
+						
+					}
+					blocco.appendChild(blocco1);
+
+					let blocco2 = document.createElement('div');
+					blocco2.id = 'blocco2';
+					blocco2.style.position = 'relative';
+					blocco2.style.top = 0;
+					blocco2.style.left = 0;
+					blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
+					blocco2.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco2.onclick = () => {
+						terminalCount++;
+						createIcon('terminal', terminalCount);
+						localStorage.setItem('terminalCount', terminalCount);
+						menu.remove();
+					}
+					blocco.appendChild(blocco2);
+
+					let blocco3 = document.createElement('div');
+					blocco3.id = 'blocco3';
+					blocco3.style.position = 'relative';
+					blocco3.style.top = 0;
+					blocco3.style.left = 0;
+					blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
+					blocco3.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco3.onclick = () => {
+						fishyCount++;
+						createIcon('fishy', fishyCount);
+						localStorage.setItem('fishyCount', fishyCount);
+						menu.remove();
+					}
+					blocco.appendChild(blocco3);
+				}
+				firstText.style.position = 'relative';
+				//firstText.innerHTML += '\x20';
+				firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
+				firstText.style.color = 'white';
+				//firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+				firstText.style.cursor = 'default';
+				menu.appendChild(firstText);
+
+				if (copied) {
+					menu.style.height = '42px';
+					firstText.style.borderBottom = '1px solid black';
+					let secondText = document.createElement("div");
+					secondText.id = 'secondText';
+					secondText.onclick = () => {
+						if(clipboard.id.includes('terminal')){
+							let s = clipboard.id.slice(12);
+							assignIconBehaviour('terminal', clipboard.id, parseInt(s));
+						}
+						if(clipboard.id.includes('fishy')){
+							let s = clipboard.id.slice(9);
+							assignIconBehaviour('fishy', clipboard.id, parseInt(s));
+						}
+						document.getElementById('column' + currentColumn).appendChild(clipboard);
+						currElementsCol++;
+						if (currElementsCol == 5) {
+							currElementsCol = 0;
+							currentColumn++;
+						}
+						console.log(clipboard.id);
+						if(clipboard.id.includes('terminal')){
+							terminalCount++;
+						}
+						if(clipboard.id.includes('fishy')){
+							fishyCount++;
+						}
+
+						clipboard = undefined;
+						copied = false;
+					}
+					secondText.style.position = 'relative';
+					secondText.textContent = '\xA0' + 'Incolla';
+					secondText.style.color = 'white';
+					secondText.style.cursor = 'default';
+					//secondText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					menu.appendChild(secondText);
+				}
+
+			}, 1);
+		});
+
+		document.addEventListener('click', () => {
+			if (document.getElementById('contextmenu')) {
+				document.getElementById('contextmenu').remove();
+			}
+			if (document.getElementById('error')) {
+				document.getElementById('error').remove();
+			}
+		});
+
+	</script>
+</body>
+
+</html>
