@@ -14,7 +14,7 @@
 			color: white;
 			font-family: "Ubuntu";
 			background: rgb(64, 219, 226);
-			background: linear-gradient(20deg, rgb(9, 0, 174) 0%, rgb(177, 95, 236) 100%);
+			background: linear-gradient(45deg, rgb(0, 133, 174) 0%, rgb(0, 174, 110) 100%);
 			overflow: hidden;
 			margin: 0;
 			padding: 0;
@@ -177,6 +177,7 @@
 			border-radius: 15px;
 			margin-top: 10px;
 			cursor: pointer;
+			user-select: none;
 		}
 
 		.terminal-icon>img {
@@ -189,6 +190,7 @@
 			left: 50%;
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
+			user-select: none;
 		}
 
 		.fishy-icon>img {
@@ -201,6 +203,7 @@
 			left: 50%;
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
+			user-select: none;
 		}
 
 		.document-icon>img {
@@ -213,6 +216,7 @@
 			left: 50%;
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
+			user-select: none;
 		}
 
 		.bottom-bar {
@@ -222,10 +226,12 @@
 			position: absolute;
 			bottom: 0;
 			z-index: 2;
+			user-select: none;
 		}
 
 		.bottom-bar-element {
 			background-color: rgb(2, 0, 46);
+			user-select: none;
 		}
 
 		.bottom-bar-element:hover {
@@ -370,6 +376,7 @@
 		let fishyCount = 0;
 		let documentCount = 0;
 		let clipboard;
+		let ind;
 		let currentColumn = 1;
 		let currElementsCol = 0;
 		let copied = false;
@@ -388,27 +395,25 @@
 		}
 		fileArray = fileArray.sort(function (a, b) {return a - b;});
 
-		for (let i = 0; i < localStorage.getItem('terminalCount'); i++) {
-			createIcon('terminal', i);
-			terminalCount++;
-		}
 
-		for (let i = 0; i < localStorage.getItem('fishyCount'); i++) {
-			createIcon('fishy', i);
-			fishyCount++;
+		for(let i=0; i<localStorage.length; i++){
+			if(localStorage.key(i) == 'terminalCount'){
+				for(let j=0; j<localStorage.getItem('terminalCount'); j++){
+					createIcon('terminal', j);
+					terminalCount++;
+				}
+			}
+			if(localStorage.key(i) == 'fishyCount'){
+				for(let j=0; j<localStorage.getItem('fishyCount'); j++){
+					createIcon('fishy', j);
+					fishyCount++;
+				}
+			}
 		}
 
 		for (let i = 0; i < fileArray.length; i++) {
 			newDocument(fileArray[i]);
 		}
-
-		/*for (let i = 0; i < document.getElementsByClassName('terminal-icon').length; i++) {
-			assignIconBehaviour('terminal', 'terminal-icon', i);
-		}
-
-		for (let i = 0; i < document.getElementsByClassName('fishy-icon').length; i++) {
-			assignIconBehaviour('fishy', 'fishy-icon', i);
-		}*/
 
 		document.addEventListener('contextmenu', (e) => {
 			e.preventDefault();
@@ -520,12 +525,15 @@
 						if(clipboard == 'terminal'){
 							c = terminalCount;
 							createIcon(clipboard, c);
+							terminalCount++;
 						}
 						if(clipboard == 'fishy'){
 							c = fishyCount;
 							createIcon(clipboard, c);
+							fishyCount++;
 						}
 						if(clipboard == 'document'){
+							localStorage.setItem('document' + (documentCount), localStorage.getItem('document'+ind));
 							if (fileArray.length > 0) {
 								newDocument(fileArray[fileArray.length - 1] + 1);
 								fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;

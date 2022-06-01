@@ -226,6 +226,12 @@ class Document {
 
 function newDocument(num) {
 
+    currElementsCol++;
+    if(currElementsCol == 6){
+        currElementsCol = 1;
+        currentColumn++;
+    }
+
     documentCount++;
     localStorage.setItem("documentCount", documentCount);
 
@@ -252,12 +258,6 @@ function newDocument(num) {
         icondiv.textContent = 'Documento(' + num + ")";
     }
     div.appendChild(icondiv);
-
-    currElementsCol++;
-    if(currElementsCol == 5){
-        currElementsCol = 0;
-        currentColumn++;
-    }
     
     div.onclick = (e) => {
         e.stopPropagation();

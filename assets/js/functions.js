@@ -454,7 +454,7 @@ function createContextMenu(e, objName, menu, num){
         secondText.id = 'secondText';
         secondText.onclick = () => {
             clipboard = objName;
-    
+            if(objName == 'document') ind = num;
             copied = true;
         }
         secondText.style.position = 'relative';
@@ -472,13 +472,14 @@ function createContextMenu(e, objName, menu, num){
         thirdText.onclick = () => {
             if(currElementsCol == 0){
                 currentColumn--;
-                currElementsCol = 5;
+                currElementsCol = 4;
             }
             else{
                 currElementsCol--;
             }
             for(let j=0; j<document.getElementsByClassName(objName + '-icon').length; j++){
                 if(document.getElementsByClassName(objName + '-icon')[j].id == objName + 'Icon' + num){
+
                     document.getElementsByClassName(objName + '-icon')[j].remove();
                 }
             }
@@ -502,6 +503,9 @@ function createContextMenu(e, objName, menu, num){
                 fishyCount--;
                 localStorage.setItem("fishyCount", fishyCount);
             }
+
+            //removeIcons();
+            //initializeIcons();
         }
         thirdText.style.position = 'relative';
         thirdText.textContent = '\xA0' + 'Elimina';
@@ -590,6 +594,12 @@ function contextMenuIcon(menu, objName, i){
 
 function createIcon(objName, num){
 
+    currElementsCol++;
+    if(currElementsCol == 6){
+        currElementsCol = 1;
+        currentColumn++;
+    }
+
     let div = document.createElement('div');
     div.className = objName + '-icon icon';
     div.id = objName + 'Icon' + num;
@@ -621,12 +631,6 @@ function createIcon(objName, num){
         icondiv.textContent = objName.charAt(0).toUpperCase() + objName.slice(1) + '(' + num + ")";
     }
     div.appendChild(icondiv);
-
-    currElementsCol++;
-    if(currElementsCol == 5){
-        currElementsCol = 0;
-        currentColumn++;
-    }
     
     let newDiv = document.createElement('div');
     let newImg = document.createElement('img');
@@ -686,5 +690,44 @@ function createIcon(objName, num){
         e.preventDefault();
         removeActiveDivs();
         createContextMenu(e, objName, menu, num);
+    }
+}
+
+function initializeIcons(){
+
+    for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
+            fileArray.push(parseInt(localStorage.key(i).slice(8)));
+        }
+    }
+    fileArray = fileArray.sort(function (a, b) {return a - b;});
+
+
+    for(let i=0; i<localStorage.length; i++){
+        if(localStorage.key(i) == 'terminalCount'){
+            for(let j=0; j<localStorage.getItem('terminalCount'); j++){
+                createIcon('terminal', i);
+                terminalCount++;
+            }
+        }
+        if(localStorage.key(i) == 'fishyCount'){
+            for(let j=0; j<localStorage.getItem('fishyCount'); j++){
+                createIcon('fishy', i);
+                fishyCount++;
+            }
+        }
+    }
+
+    for (let i = 0; i < fileArray.length; i++) {
+        newDocument(fileArray[i]);
+    }
+
+}
+
+function removeIcons(){
+    let items = Array.from(document.getElementsByTagName('div'));
+    items = items.filter(x=>x.className && x.className.includes('icon'));
+    for(let i=0; i<items.length; i++){
+        items[i].remove();
     }
 }
