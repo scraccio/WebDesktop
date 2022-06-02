@@ -8,6 +8,7 @@ class Document {
     active;
     isDown;
     offset;
+    title;
 
     constructor(num) {
         this.index = num;
@@ -247,6 +248,7 @@ function newDocument(num) {
 
     let image = document.createElement('img');
     image.src = 'assets/img/documents.png';
+    image.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
     div.appendChild(image);
 
     let icondiv = document.createElement('div');
@@ -307,6 +309,7 @@ function newDocument(num) {
             newImg.style.top = '50%';
             newImg.style.left = '50%';
             newImg.style.transform = 'translate(-50%, -50%)';
+            newImg.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
             newDiv.appendChild(newImg);
             newDiv.onclick = () => {
                 documento.minimize();
@@ -330,5 +333,6 @@ function newDocument(num) {
         e.preventDefault();
         removeActiveDivs();
         createContextMenu(e, 'document', menu, num);
+        contextMenuIcon(menu, 'document', num);
     }
 }

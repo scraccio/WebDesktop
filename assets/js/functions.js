@@ -151,7 +151,7 @@ function createBarIcon(objName, newDiv, obj){
         e.preventDefault();
         removeActiveDivs();
         let menu = document.createElement("div");
-        createContextMenu(e, objName, menu, obj);
+        createContextMenu(e, objName, menu, obj.index);
     }
 
     newDiv.style.width = '50px';
@@ -191,11 +191,12 @@ function createContextMenu(e, objName, menu, num){
         menu.style.top = y + "px";
     }
     menu.style.width = '80px';
-    menu.style.height = '62px';
+    menu.style.height = '42px';
     menu.style.backgroundColor = 'rgb(100, 100, 100)';
     menu.style.boxSizing = 'border-box';
     menu.style.border = '1px solid black';
     menu.style.zIndex = 3;
+    menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
 
     let firstText;
     if(!document.getElementById('firstText')){
@@ -328,6 +329,7 @@ function createContextMenu(e, objName, menu, num){
                         menu.style.boxSizing = 'border-box';
                         menu.style.border = '1px solid black';
                         menu.style.zIndex = 3;
+                        menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
                 
                         let firstText = document.createElement("div");
                         firstText.id = 'firstText';
@@ -453,66 +455,21 @@ function createContextMenu(e, objName, menu, num){
         secondText = document.createElement("div");
         secondText.id = 'secondText';
         secondText.onclick = () => {
-            clipboard = objName;
-            if(objName == 'document') ind = num;
-            copied = true;
+            for (let i = 0; i < objArray.length; i++) {
+                if (objArray[i].id == 'container' + objName.charAt(0).toUpperCase() + objName.slice(1) + num) {
+                    objArray[i].cross();
+                    break;
+                }
+            }
         }
         secondText.style.position = 'relative';
-        secondText.textContent = '\xA0' + 'Copia';
+        secondText.textContent = '\xA0' + 'Chiudi';
         secondText.style.color = 'white';
         secondText.style.cursor = 'default';
         secondText.style.borderBottom = '1px solid rgb(50, 50, 50)';
         menu.appendChild(secondText);
-    }
+    }  
 
-    let thirdText;
-    if(!document.getElementById('thirdText')){
-        thirdText = document.createElement("div");
-        thirdText.id = 'thirdText';
-        thirdText.onclick = () => {
-            if(currElementsCol == 0){
-                currentColumn--;
-                currElementsCol = 4;
-            }
-            else{
-                currElementsCol--;
-            }
-            for(let j=0; j<document.getElementsByClassName(objName + '-icon').length; j++){
-                if(document.getElementsByClassName(objName + '-icon')[j].id == objName + 'Icon' + num){
-
-                    document.getElementsByClassName(objName + '-icon')[j].remove();
-                }
-            }
-            if(objName == 'document'){
-                localStorage.removeItem("document" + num);
-                documentCount--;
-                localStorage.setItem("documentCount", documentCount);
-                for(let j=0; j<fileArray.length; j++){
-                    if(fileArray[j] == num){
-                        fileArray.splice(j,1);
-                    }
-                }
-            }
-            if(objName == 'terminal'){
-                localStorage.removeItem("terminal" + num);
-                terminalCount--;
-                localStorage.setItem("terminalCount", terminalCount);
-            }
-            if(objName == 'fishy'){
-                localStorage.removeItem("fishy" + num);
-                fishyCount--;
-                localStorage.setItem("fishyCount", fishyCount);
-            }
-
-            //removeIcons();
-            //initializeIcons();
-        }
-        thirdText.style.position = 'relative';
-        thirdText.textContent = '\xA0' + 'Elimina';
-        thirdText.style.color = 'white';
-        thirdText.style.cursor = 'default';
-        menu.appendChild(thirdText);
-    }
 }
 
 function assignImageToIcon(objName, newDiv, newImg){
@@ -537,58 +494,80 @@ function assignImageToIcon(objName, newDiv, newImg){
 }
 
 function contextMenuIcon(menu, objName, i){
-    document.getElementById('contextmenu').style.height = '62px';
+    document.getElementById('contextmenu').style.height = '82px';
     document.getElementById('secondText').textContent = '\xA0' + 'Copia';
     document.getElementById('secondText').style.borderBottom = '1px solid black';
     document.getElementById('secondText').onclick = () => {
-        clipboard = document.getElementsByClassName(objName + '-icon')[i].cloneNode(true);
-        clipboard.id = objName + 'Icon' + (i+1);
-        clipboard.querySelector('div').textContent = objName.charAt(0).toUpperCase() + objName.slice(1) + '(' + (i + 1) + ')';
-
+        clipboard = objName;
         copied = true;
     }
 
-    let thirdText = document.createElement('div');
-    thirdText.id = 'thirdText';
-    thirdText.style.position = 'relative';
-    thirdText.textContent = '\xA0' + 'Elimina';
-    thirdText.style.color = 'white';
-    thirdText.style.cursor = 'default';
-    thirdText.onclick = () => {
-        if(currElementsCol == 0){
-            currentColumn--;
-            currElementsCol = 5;
-        }
-        else{
-            currElementsCol--;
-        }
-        for(let j=0; j<document.getElementsByClassName(objName + '-icon').length; j++){
-            if(document.getElementsByClassName(objName + '-icon')[j].id == objName + 'Icon' + i){
-                document.getElementsByClassName(objName + '-icon')[j].remove();
+    let thirdText;
+    if(!document.getElementById('thirdText')){
+        thirdText = document.createElement("div");
+        thirdText.id = 'thirdText';
+        thirdText.style.position = 'relative';
+        thirdText.textContent = '\xA0' + 'Elimina';
+        thirdText.style.color = 'white';
+        thirdText.style.cursor = 'default';
+        thirdText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+        thirdText.onclick = () => {
+            if(currElementsCol == 0){
+                currentColumn--;
+                currElementsCol = 5;
             }
-        }
-        if(objName == 'document'){
-            localStorage.removeItem("document" + i);
-            documentCount--;
-            localStorage.setItem("documentCount", documentCount);
-            for(let j=0; j<fileArray.length; j++){
-                if(fileArray[j] == i){
-                    fileArray.splice(j,1);
+            else{
+                currElementsCol--;
+            }
+            for(let j=0; j<document.getElementsByClassName(objName + '-icon').length; j++){
+                if(document.getElementsByClassName(objName + '-icon')[j].id == objName + 'Icon' + i){
+                    document.getElementsByClassName(objName + '-icon')[j].remove();
                 }
             }
+            if(objName == 'document'){
+                localStorage.removeItem("document" + i);
+                documentCount--;
+                localStorage.setItem("documentCount", documentCount);
+                for(let j=0; j<fileArray.length; j++){
+                    if(fileArray[j] == i){
+                        fileArray.splice(j,1);
+                    }
+                }
+            }
+            if(objName == 'terminal'){
+                localStorage.removeItem("terminal" + i);
+                terminalCount--;
+                localStorage.setItem("terminalCount", terminalCount);
+            }
+            if(objName == 'fishy'){
+                localStorage.removeItem("fishy" + i);
+                fishyCount--;
+                localStorage.setItem("fishyCount", fishyCount);
+            }
         }
-        if(objName == 'terminal'){
-            localStorage.removeItem("terminal" + i);
-            terminalCount--;
-            localStorage.setItem("terminalCount", terminalCount);
-        }
-        if(objName == 'fishy'){
-            localStorage.removeItem("fishy" + i);
-            fishyCount--;
-            localStorage.setItem("fishyCount", fishyCount);
-        }
+        menu.appendChild(thirdText);
     }
-    menu.appendChild(thirdText);
+
+    let fourthText;
+    if(!document.getElementById('fourthText')){
+        fourthText = document.createElement("div");
+        fourthText.id = 'fourthText';
+        fourthText.onclick = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            document.getElementById('contextmenu').remove();
+            let target = document.getElementById(objName + 'Icon' + i).querySelector('div');
+            target.contentEditable = true;
+            target.style.color = 'black';
+            target.style.backgroundColor = 'white';
+            setTimeout(()=>{target.focus();});
+        }
+        fourthText.style.position = 'relative';
+        fourthText.textContent = '\xA0' + 'Rinomina';
+        fourthText.style.color = 'white';
+        fourthText.style.cursor = 'default';
+        menu.appendChild(fourthText);
+    }
     
 }
 
@@ -620,10 +599,12 @@ function createIcon(objName, num){
     if(objName == 'document'){
         image.src = 'assets/img/documents.png';
     }
+    image.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
     div.appendChild(image);
 
     let icondiv = document.createElement('div');
     icondiv.className = 'icon-text';
+    
     if(num == 0){
         icondiv.textContent = objName.charAt(0).toUpperCase() + objName.slice(1);
     }
@@ -690,6 +671,7 @@ function createIcon(objName, num){
         e.preventDefault();
         removeActiveDivs();
         createContextMenu(e, objName, menu, num);
+        contextMenuIcon(menu, objName, num);
     }
 }
 
@@ -729,5 +711,14 @@ function removeIcons(){
     items = items.filter(x=>x.className && x.className.includes('icon'));
     for(let i=0; i<items.length; i++){
         items[i].remove();
+    }
+}
+
+function removeRename(){
+    for(let i=0; i<document.getElementsByClassName('icon-text').length; i++){
+        let target = document.getElementsByClassName('icon-text')[i];
+        target.contentEditable = false;
+        target.style.color = 'white';
+        target.style.removeProperty('background-color');
     }
 }

@@ -14,7 +14,7 @@
 			color: white;
 			font-family: "Ubuntu";
 			background: rgb(64, 219, 226);
-			background: linear-gradient(45deg, rgb(0, 133, 174) 0%, rgb(0, 174, 110) 100%);
+			background: linear-gradient(25deg, rgb(50, 174, 211) 0%, rgb(31, 1, 92) 100%);
 			overflow: hidden;
 			margin: 0;
 			padding: 0;
@@ -298,6 +298,7 @@
 		#firstText:hover,
 		#secondText:hover,
 		#thirdText:hover,
+		#fourthText:hover,
 		#blocco1:hover,
 		#blocco2:hover,
 		#blocco3:hover {
@@ -375,6 +376,7 @@
 		let terminalCount = 0;
 		let fishyCount = 0;
 		let documentCount = 0;
+		let browserCount = 0;
 		let clipboard;
 		let ind;
 		let currentColumn = 1;
@@ -385,8 +387,6 @@
 
 		let fileArray = [];
 
-		localStorage.setItem('terminalCount', 1);
-		localStorage.setItem('fishyCount', 1);
 
 		for (let i = 0; i < localStorage.length; i++) {
 			if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
@@ -419,6 +419,7 @@
 			e.preventDefault();
 			setTimeout(() => {
 				removeActiveDivs();
+				removeRename();
 
 				let menu = document.createElement("div");
 				document.body.appendChild(menu);
@@ -442,12 +443,14 @@
 				menu.style.boxSizing = 'border-box';
 				menu.style.border = '1px solid black';
 				menu.style.zIndex = 3;
+				menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
 
 				let firstText = document.createElement("div");
 				firstText.id = 'firstText';
 				firstText.onclick = (e) => {
 					e.stopPropagation();
 					let blocco = document.createElement('div');
+					blocco.style.userSelect = 'none';
 					blocco.id = 'blocco';
 					blocco.style.position = 'absolute';
 					blocco.style.top = '-1px';
@@ -455,6 +458,7 @@
 					blocco.style.border = '1px solid black';
 					blocco.style.backgroundColor = 'rgb(100, 100, 100)';
 					blocco.style.height = '79px';
+					blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
 					firstText.appendChild(blocco);
 
 					let blocco1 = document.createElement('div');
@@ -558,6 +562,7 @@
 		});
 
 		document.addEventListener('click', () => {
+			removeRename();
 			if (document.getElementById('contextmenu')) {
 				document.getElementById('contextmenu').remove();
 			}

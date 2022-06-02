@@ -59,7 +59,7 @@ class Terminal {
 
         document.body.appendChild(container);
 
-        document.addEventListener("keydown", (e) => {this.keyPress(e);});
+        container.addEventListener("keydown", (e) => {this.keyPress(e);});
         textField.addEventListener("click", (e) => {
             e.stopPropagation();
             e.preventDefault();
