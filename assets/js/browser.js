@@ -29,6 +29,10 @@ class Browser {
             this.active = true;
             document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
         });
+        containerBrowser.oncontextmenu = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        }
         containerBrowser.style.width = '80%';
         containerBrowser.style.height = '80%';
         containerBrowser.style.position = 'absolute';
@@ -54,7 +58,16 @@ class Browser {
         iframe.style.left = '50%';
         iframe.style.top = '50%';
         iframe.style.transform = 'translate(-50%,-50%)';
+        iframe.style.visibility = 'hidden';
         iframe.onload = () => {
+            /*console.log(iframe.contentWindow.location.href);
+            if(browserHistory.length > 0){
+                browserHistory[browserHistory.length-1] = iframe.src;
+            }
+            else{
+                browserHistory[0] = iframe.src;
+            }*/
+            iframe.style.visibility = 'visible';
             if(!document.getElementById('menu' + this.index)){
                 let menu = document.createElement('div');
                 let menu1 = document.createElement('div');
@@ -83,6 +96,7 @@ class Browser {
     minimize() {
         if (this.minimized && !this.active) {
             document.getElementById('containerBrowser' + this.index).style.visibility = 'visible';
+            document.getElementById('iframe' + this.index).style.visibility = 'visible';
             document.getElementById('containerBrowser' + this.index).style.zIndex = 1;
             document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
             this.active = true;
@@ -90,6 +104,7 @@ class Browser {
         }
         else if (!this.minimized && this.active) {
             document.getElementById('containerBrowser' + this.index).style.visibility = 'hidden';
+            document.getElementById('iframe' + this.index).style.visibility = 'hidden';
             document.getElementById('containerBrowser' + this.index).style.zIndex = 0;
             document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(2, 0, 46)';
             this.active = false;

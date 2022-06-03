@@ -35,7 +35,10 @@ class Document {
             this.active = true;
             document.getElementById('document' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
         });
-
+        container.oncontextmenu = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        }
         let menu = document.createElement('div');
         let menu1 = document.createElement('div');
         let menuEntry1 = document.createElement('div');

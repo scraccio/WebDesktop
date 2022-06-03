@@ -27,6 +27,10 @@ class Fishy {
             this.active = true;
             document.getElementById('fishy' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
         });
+        containerFishy.oncontextmenu = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+        }
         containerFishy.style.width = '80%';
         containerFishy.style.height = '80%';
         containerFishy.style.position = 'absolute';

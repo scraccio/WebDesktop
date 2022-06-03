@@ -106,16 +106,7 @@ function createMenu(objName, container, menu, menu1, menuEntry1, menu2, menuEntr
         menu4.textContent = 'Browser';
     }
     if(objName == 'document'){
-        for(let i=0; i<document.getElementsByClassName('document-icon').length; i++){
-            if(document.getElementsByClassName('document-icon')[i].id == 'documentIcon' + this.index){
-                if((this.index) == 0){
-                    menu4.textContent = 'Documento';
-                }
-                else{
-                    menu4.textContent = 'Documento(' + this.index +')';
-                }
-            }
-        }
+        menu4.textContent = 'Blocco Note';
     }
     
     menu.appendChild(menu4);
@@ -194,16 +185,16 @@ function createContextMenu(e, objName, menu, num){
     menu.style.position = "fixed";
     menu.style.left = x + "px";
     if (y >= window.innerHeight - 50) {
-        menu.style.top = (y - 40) + "px";
+        menu.style.top = (y - 60) + "px";
     }
     else {
         menu.style.top = y + "px";
     }
-    menu.style.width = '80px';
-    menu.style.height = '42px';
-    menu.style.backgroundColor = 'rgb(100, 100, 100)';
-    menu.style.boxSizing = 'border-box';
-    menu.style.border = '1px solid black';
+    menu.style.width = '120px';
+    menu.style.height = '62px';
+    menu.style.backgroundColor = 'rgb(240, 240, 240)';
+    menu.style.padding = '5px';
+    menu.style.borderRadius = '5px';
     menu.style.zIndex = 3;
     menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
 
@@ -211,6 +202,8 @@ function createContextMenu(e, objName, menu, num){
     if(!document.getElementById('firstText')){
         firstText = document.createElement("div");
         firstText.id = 'firstText';
+        firstText.style.marginTop = '2px';
+		firstText.style.marginBottom = '2px';
         firstText.onclick = (e) => {
             removeActiveDivs();
             if(objName == 'terminal'){
@@ -287,8 +280,7 @@ function createContextMenu(e, objName, menu, num){
                     error.id = 'error';
                     error.style.width = '200px';
                     error.style.height = '100px';
-                    error.style.backgroundColor = 'rgb(200,200,200)';
-                    error.style.border = '1px solid black';
+                    error.style.backgroundColor = 'rgb(240,240,240)';
                     error.style.borderRadius = '5px';
                     error.style.top = '50%';
                     error.style.left = '50%';
@@ -358,7 +350,6 @@ function createContextMenu(e, objName, menu, num){
                         menu.style.height = '42px';
                         menu.style.backgroundColor = 'rgb(100, 100, 100)';
                         menu.style.boxSizing = 'border-box';
-                        menu.style.border = '1px solid black';
                         menu.style.zIndex = 3;
                         menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
                 
@@ -372,12 +363,12 @@ function createContextMenu(e, objName, menu, num){
                             error.id = 'error';
                             error.style.width = '200px';
                             error.style.height = '100px';
-                            error.style.backgroundColor = 'rgb(200,200,200)';
-                            error.style.border = '1px solid black';
+                            error.style.backgroundColor = 'rgb(240,240,240)';
                             error.style.borderRadius = '5px';
                             error.style.top = '50%';
                             error.style.left = '50%';
                             error.style.transform = 'translate(-50%,-50%)';
+                            error.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
                             error.style.zIndex = 5;
                             document.getElementById('containerDesktop').appendChild(error);
     
@@ -402,8 +393,7 @@ function createContextMenu(e, objName, menu, num){
                         firstText.style.position = 'relative';
                         //firstText.innerHTML += '\x20';
                         firstText.textContent = '\xA0' + 'Apri';
-                        firstText.style.color = 'white';
-                        firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+                        firstText.style.color = 'rgb(75, 89, 94)';
                         firstText.style.cursor = 'default';
                         menu.appendChild(firstText);
                 
@@ -420,9 +410,8 @@ function createContextMenu(e, objName, menu, num){
                         }
                         secondText.style.position = 'relative';
                         secondText.textContent = '\xA0' + 'Chiudi';
-                        secondText.style.color = 'white';
+                        secondText.style.color = 'rgb(75, 89, 94)';
                         secondText.style.cursor = 'default';
-                        //secondText.style.borderBottom = '1px solid rgb(50, 50, 50)';
                         menu.appendChild(secondText);
                     };
                     
@@ -473,9 +462,15 @@ function createContextMenu(e, objName, menu, num){
         }
         firstText.style.position = 'relative';  
         //firstText.innerHTML += '\x20';
-        firstText.textContent = '\xA0' + 'Apri';
-        firstText.style.color = 'white';
-        firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+        firstText.innerHTML += '<img src="assets/img/openIcon.png" style="transform: scale(0.5);"/>' + 'Apri';
+        //firstText.textContent = '\xA0' + 'Apri';
+        firstText.style.color = 'rgb(75, 89, 94)';
+        firstText.style.fontSize = '14px';
+        firstText.style.fontFamily = 'Sans-Serif';
+        firstText.style.fontWeight = '700';
+        firstText.style.display = 'flex';
+        firstText.style.alignItems = 'center';
+        firstText.style.borderRadius = '5px';
         firstText.style.cursor = 'default';
         menu.appendChild(firstText);
     }
@@ -485,6 +480,8 @@ function createContextMenu(e, objName, menu, num){
     if(!document.getElementById('secondText')){
         secondText = document.createElement("div");
         secondText.id = 'secondText';
+        secondText.style.marginTop = '2px';
+		secondText.style.marginBottom = '2px';
         secondText.onclick = () => {
             for (let i = 0; i < objArray.length; i++) {
                 if (objArray[i].id == 'container' + objName.charAt(0).toUpperCase() + objName.slice(1) + num) {
@@ -494,10 +491,16 @@ function createContextMenu(e, objName, menu, num){
             }
         }
         secondText.style.position = 'relative';
-        secondText.textContent = '\xA0' + 'Chiudi';
-        secondText.style.color = 'white';
+        secondText.innerHTML += '<img src="assets/img/closeIcon.png" style="transform: scale(0.6);"/>' + 'Chiudi';
+        //secondText.textContent = '\xA0' + 'Chiudi';
+        secondText.style.color = 'rgb(75, 89, 94)';
+        secondText.style.fontSize = '14px';
+        secondText.style.fontFamily = 'Sans-Serif';
+        secondText.style.fontWeight = '700';
+        secondText.style.display = 'flex';
+        secondText.style.alignItems = 'center';
+        secondText.style.borderRadius = '5px';
         secondText.style.cursor = 'default';
-        secondText.style.borderBottom = '1px solid rgb(50, 50, 50)';
         menu.appendChild(secondText);
     }  
 
@@ -528,11 +531,11 @@ function assignImageToIcon(objName, newDiv, newImg){
 }
 
 function contextMenuIcon(menu, objName, i){
-    document.getElementById('contextmenu').style.height = '82px';
-    document.getElementById('secondText').textContent = '\xA0' + 'Copia';
-    document.getElementById('secondText').style.borderBottom = '1px solid black';
+    document.getElementById('contextmenu').style.height = '125px';
+    document.getElementById('secondText').innerHTML = '<img src="assets/img/copyIcon.png" style="transform: scale(0.6);"/>' + 'Copia';
     document.getElementById('secondText').onclick = () => {
         clipboard = objName;
+        ind = i;
         copied = true;
     }
 
@@ -540,11 +543,18 @@ function contextMenuIcon(menu, objName, i){
     if(!document.getElementById('thirdText')){
         thirdText = document.createElement("div");
         thirdText.id = 'thirdText';
+        thirdText.style.marginTop = '2px';
+		thirdText.style.marginBottom = '2px';
         thirdText.style.position = 'relative';
-        thirdText.textContent = '\xA0' + 'Elimina';
-        thirdText.style.color = 'white';
+        thirdText.innerHTML = '<img src="assets/img/deleteIcon.png" style="transform: scale(0.5);"/>' + 'Elimina';
+        thirdText.style.color = 'rgb(75, 89, 94)';
+        thirdText.style.fontSize = '14px';
+        thirdText.style.fontFamily = 'Sans-Serif';
+        thirdText.style.fontWeight = '700';
+        thirdText.style.display = 'flex';
+        thirdText.style.alignItems = 'center';
+        thirdText.style.borderRadius = '5px';
         thirdText.style.cursor = 'default';
-        thirdText.style.borderBottom = '1px solid rgb(50, 50, 50)';
         thirdText.onclick = () => {
             if(currElementsCol == 0){
                 currentColumn--;
@@ -591,6 +601,8 @@ function contextMenuIcon(menu, objName, i){
     if(!document.getElementById('fourthText')){
         fourthText = document.createElement("div");
         fourthText.id = 'fourthText';
+        fourthText.style.marginTop = '2px';
+		fourthText.style.marginBottom = '2px';
         fourthText.onclick = (e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -602,8 +614,14 @@ function contextMenuIcon(menu, objName, i){
             setTimeout(()=>{target.focus();});
         }
         fourthText.style.position = 'relative';
-        fourthText.textContent = '\xA0' + 'Rinomina';
-        fourthText.style.color = 'white';
+        fourthText.innerHTML = '<img src="assets/img/renameIcon.png" style="transform: scale(0.5);"/>' + 'Rinomina';
+        fourthText.style.color = 'rgb(75, 89, 94)';
+        fourthText.style.fontSize = '14px';
+        fourthText.style.fontFamily = 'Sans-Serif';
+        fourthText.style.fontWeight = '700';
+        fourthText.style.display = 'flex';
+        fourthText.style.alignItems = 'center';
+        fourthText.style.borderRadius = '5px';
         fourthText.style.cursor = 'default';
         menu.appendChild(fourthText);
     }

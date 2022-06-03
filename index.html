@@ -192,6 +192,7 @@
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
 			user-select: none;
+			transition: 0.2s ease-out;
 		}
 
 		.fishy-icon>img {
@@ -205,6 +206,7 @@
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
 			user-select: none;
+			transition: 0.2s ease-out;
 		}
 
 		.document-icon>img {
@@ -218,6 +220,7 @@
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
 			user-select: none;
+			transition: 0.2s ease-out;
 		}
 
 		.browser-icon>img {
@@ -231,6 +234,16 @@
 			transform: translate(-50%, -58%);
 			-webkit-user-drag: none;
 			user-select: none;
+			transition: 0.2s ease-out;
+		}
+
+		.terminal-icon>img:hover,
+		.fishy-icon>img:hover,
+		.document-icon>img:hover,
+		.browser-icon>img:hover {
+			width: 80%;
+			height: 80%;
+			transition: 0.2s ease-out;
 		}
 
 		.bottom-bar {
@@ -316,7 +329,7 @@
 		#blocco1:hover,
 		#blocco2:hover,
 		#blocco3:hover {
-			background-color: rgb(120, 120, 120);
+			background-color: rgb(220, 220, 220);
 		}
 
 		.textFieldDoc {
@@ -390,6 +403,7 @@
 
 		let fileArray = [];
 
+		let browserHistory = [];
 
 		for (let i = 0; i < localStorage.length; i++) {
 			if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
@@ -447,10 +461,9 @@
 				}
 				menu.style.width = '90px';
 				menu.style.height = '22px';
-				menu.style.backgroundColor = 'rgb(100, 100, 100)';
-				//menu.style.paddingTop = '2px';
-				menu.style.boxSizing = 'border-box';
-				menu.style.border = '1px solid black';
+				menu.style.backgroundColor = 'rgb(240, 240, 240)';
+				menu.style.padding = '5px';
+				menu.style.borderRadius = '5px';
 				menu.style.zIndex = 3;
 				menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
 
@@ -460,13 +473,19 @@
 					e.stopPropagation();
 					let blocco = document.createElement('div');
 					blocco.style.userSelect = 'none';
+					blocco.style.width = '150px';
+					blocco.style.height = '120px';
 					blocco.id = 'blocco';
 					blocco.style.position = 'absolute';
+					blocco.style.padding = '5px';
+					blocco.style.boxSizing = 'border-box';
 					blocco.style.top = '-1px';
-					blocco.style.left = '88px'
-					blocco.style.border = '1px solid black';
-					blocco.style.backgroundColor = 'rgb(100, 100, 100)';
-					blocco.style.height = '99px';
+					blocco.style.left = '92px'
+					//blocco.style.border = '1px solid black';
+					blocco.style.backgroundColor = 'rgb(240, 240, 240)';
+					blocco.style.color = 'rgb(75, 89, 94)';
+					blocco.style.fontSize = '13px';
+					blocco.style.borderRadius = '5px';
 					blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
 					firstText.appendChild(blocco);
 
@@ -475,8 +494,14 @@
 					blocco1.style.position = 'relative';
 					blocco1.style.top = 0;
 					blocco1.style.left = 0;
-					blocco1.textContent = 'Documento di testo';
-					blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco1.style.marginTop = '2px';
+					blocco1.style.marginBottom = '2px';
+					blocco1.style.borderRadius = '5px';
+					blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
+					blocco1.style.display = 'flex';
+					blocco1.style.alignItems = 'center';
+					//blocco1.textContent = 'Documento';
+					//blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
 					blocco1.onclick = () => {
 						menu.remove();
 						if (fileArray.length > 0) {
@@ -495,8 +520,13 @@
 					blocco2.style.position = 'relative';
 					blocco2.style.top = 0;
 					blocco2.style.left = 0;
-					blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
-					blocco2.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco2.style.marginTop = '2px';
+					blocco2.style.marginBottom = '2px';
+					blocco2.style.borderRadius = '5px';
+					blocco2.innerHTML += '\xA0' + '<img src="assets/img/terminalIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Terminale';
+					blocco2.style.display = 'flex';
+					blocco2.style.alignItems = 'center';
+					//blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
 					blocco2.onclick = () => {
 						terminalCount++;
 						createIcon('terminal', terminalCount);
@@ -510,8 +540,13 @@
 					blocco3.style.position = 'relative';
 					blocco3.style.top = 0;
 					blocco3.style.left = 0;
-					blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
-					blocco3.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco3.style.marginTop = '2px';
+					blocco3.style.marginBottom = '2px';
+					blocco3.style.borderRadius = '5px';
+					blocco3.innerHTML += '\xA0' + '<img src="assets/img/fishyIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Fishy';
+					blocco3.style.display = 'flex';
+					blocco3.style.alignItems = 'center';
+					//blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
 					blocco3.onclick = () => {
 						fishyCount++;
 						createIcon('fishy', fishyCount);
@@ -525,8 +560,13 @@
 					blocco4.style.position = 'relative';
 					blocco4.style.top = 0;
 					blocco4.style.left = 0;
-					blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
-					blocco4.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco4.style.marginTop = '2px';
+					blocco4.style.marginBottom = '2px';
+					blocco4.style.borderRadius = '5px';
+					blocco4.innerHTML += '<img src="assets/img/browserIcon.png" style="transform: scale(0.5);"/>' + 'Browser';
+					blocco4.style.display = 'flex';
+					blocco4.style.alignItems = 'center';
+					//blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
 					blocco4.onclick = () => {
 						createIcon('browser', browserCount);
 						browserCount++;
@@ -537,15 +577,24 @@
 				}
 				firstText.style.position = 'relative';
 				//firstText.innerHTML += '\x20';
-				firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
-				firstText.style.color = 'white';
+				//firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
+				firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '<img src="assets/img/newIcon.png" style="transform: scale(0.4);"/>';
+				firstText.style.color = 'rgb(75, 89, 94)';
+				firstText.style.fontSize = '14px';
+				firstText.style.fontFamily = 'Sans-Serif';
+				firstText.style.fontWeight = '700';
+				firstText.style.display = 'flex';
+				firstText.style.alignItems = 'center';
+				firstText.style.borderRadius = '5px';
+				firstText.style.height = '22px';
 				//firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
 				firstText.style.cursor = 'default';
 				menu.appendChild(firstText);
 
 				if (copied) {
+					firstText.style.borderBottomLeftRadius = '0';
+					firstText.style.borderBottomRightRadius = '0';
 					menu.style.height = '42px';
-					firstText.style.borderBottom = '1px solid black';
 					let secondText = document.createElement("div");
 					secondText.id = 'secondText';
 					secondText.onclick = () => {
@@ -570,9 +619,11 @@
 							if (fileArray.length > 0) {
 								newDocument(fileArray[fileArray.length - 1] + 1);
 								fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
+								localStorage.setItem( 'document' + (fileArray[fileArray.length - 1] + 1).toString(), localStorage.getItem('document' + ind) );
 							}
 							else {
 								newDocument(documentCount);
+								localStorage.setItem('document' + documentCount.toString(), localStorage.getItem('document' + ind));
 							}
 						}
 
@@ -581,9 +632,14 @@
 					}
 					secondText.style.position = 'relative';
 					secondText.textContent = '\xA0' + 'Incolla';
-					secondText.style.color = 'white';
+					secondText.style.color = 'rgb(75, 89, 94)';
+					secondText.style.fontSize = '14px';
+					secondText.style.fontFamily = 'Sans-Serif';
+					secondText.style.fontWeight = '700';
+					secondText.style.display = 'flex';
+					secondText.style.alignItems = 'center';
+					secondText.style.borderRadius = '5px';
 					secondText.style.cursor = 'default';
-					//secondText.style.borderBottom = '1px solid rgb(50, 50, 50)';
 					menu.appendChild(secondText);
 				}
 
