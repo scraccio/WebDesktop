@@ -166,7 +166,8 @@
 
 		.terminal-icon,
 		.fishy-icon,
-		.document-icon {
+		.document-icon,
+		.browser-icon {
 			position: relative;
 			left: 0;
 			top: 0;
@@ -207,6 +208,19 @@
 		}
 
 		.document-icon>img {
+			width: 75%;
+			height: 75%;
+			border: 4px solid white;
+			border-radius: 10px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -58%);
+			-webkit-user-drag: none;
+			user-select: none;
+		}
+
+		.browser-icon>img {
 			width: 75%;
 			height: 75%;
 			border: 4px solid white;
@@ -330,20 +344,7 @@
 
 <body>
 	<div id="containerDesktop">
-		<div id="column1">
-
-			<!-- 
-			<div class="terminal-icon icon" id="terminalIcon0" onclick="newTerminal();">
-				<img src="assets/img/terminal.png">
-				<div class="icon-text">Terminal</div>
-			</div>
-
-			<div class="fishy-icon icon" id="fishyIcon0" onclick="fishy();">
-				<img src="assets/img/fishy.jpg">
-				<div class="icon-text">Fishy</div>
-			</div>
-			-->
-		</div>
+		<div id="column1"></div>
 		<div id="column2"></div>
 		<div id="column3"></div>
 		<div id="column4"></div>
@@ -368,6 +369,7 @@
 
 	<script src="assets/js/document.js"></script>
 	<script src="assets/js/fishy.js"></script>
+	<script src="assets/js/browser.js"></script>
 	<script src="assets/js/terminal.js"></script>
 	<script src="assets/js/functions.js"></script>
 	<script>
@@ -384,6 +386,7 @@
 		let copied = false;
 		let openTerminal = 0;
 		let openFishy = 0;
+		let openBrowser = 0;
 
 		let fileArray = [];
 
@@ -407,6 +410,12 @@
 				for(let j=0; j<localStorage.getItem('fishyCount'); j++){
 					createIcon('fishy', j);
 					fishyCount++;
+				}
+			}
+			if(localStorage.key(i) == 'browserCount'){
+				for(let j=0; j<localStorage.getItem('browserCount'); j++){
+					createIcon('browser', j);
+					browserCount++;
 				}
 			}
 		}
@@ -457,7 +466,7 @@
 					blocco.style.left = '88px'
 					blocco.style.border = '1px solid black';
 					blocco.style.backgroundColor = 'rgb(100, 100, 100)';
-					blocco.style.height = '79px';
+					blocco.style.height = '99px';
 					blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
 					firstText.appendChild(blocco);
 
@@ -510,6 +519,21 @@
 						menu.remove();
 					}
 					blocco.appendChild(blocco3);
+
+					let blocco4 = document.createElement('div');
+					blocco4.id = 'blocco3';
+					blocco4.style.position = 'relative';
+					blocco4.style.top = 0;
+					blocco4.style.left = 0;
+					blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
+					blocco4.style.borderBottom = '1px solid rgb(50, 50, 50)';
+					blocco4.onclick = () => {
+						createIcon('browser', browserCount);
+						browserCount++;
+						localStorage.setItem('browserCount', browserCount);
+						menu.remove();
+					}
+					blocco.appendChild(blocco4);
 				}
 				firstText.style.position = 'relative';
 				//firstText.innerHTML += '\x20';
@@ -535,6 +559,11 @@
 							c = fishyCount;
 							createIcon(clipboard, c);
 							fishyCount++;
+						}
+						if(clipboard == 'browser'){
+							c = browserCount;
+							createIcon(clipboard, c);
+							browserCount++;
 						}
 						if(clipboard == 'document'){
 							localStorage.setItem('document' + (documentCount), localStorage.getItem('document'+ind));

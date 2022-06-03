@@ -129,34 +129,3 @@ class Fishy {
         this.isDown = false;
     }
 }
-
-/*function fishy() {
-
-    let fishyProgram = new Fishy(fishyCount);
-    objArray.push(fishyProgram);
-
-    let newDiv = document.createElement('div');
-    createBarIcon.call(this, 'fishy', newDiv, fishyProgram);
-
-    newDiv.onclick = () => {
-        fishyProgram.minimize();
-        setInactiveIcons('fishy');
-        if (!fishyProgram.minimized) {
-            fishyProgram.active = true;
-            document.getElementById('fishy' + fishyProgram.index).style.backgroundColor = 'rgb(5, 0, 80)';
-            document.getElementById('containerFishy' + fishyProgram.index).style.zIndex = 1;
-        }
-        
-    };
-
-    document.getElementsByClassName('bottom-bar')[0].appendChild(newDiv);
-    
-
-    let newImg = document.createElement('img');
-    assignImageToIcon.call(this, 'fishy', newDiv, newImg);
-    
-
-    
-    document.getElementById('fishy' + fishyProgram.index).style.backgroundColor = 'rgb(5, 0, 80)';
-    document.getElementById('containerFishy' + fishyProgram.index).click();
-}*/

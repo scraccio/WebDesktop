@@ -15,7 +15,7 @@ function removeActiveDivs(){
 function setInactiveIcons(objName){
     let items = Array.from(document.getElementsByTagName('div'));
     for (let i = 0; i < items.length; i++) {
-        if (items[i] && (items[i].id.includes('containerTerminal') || items[i].id.includes('containerFishy') || items[i].id.includes('containerDocument'))) {
+        if (items[i] && (items[i].id.includes('containerTerminal') || items[i].id.includes('containerFishy') || items[i].id.includes('containerBrowser') || items[i].id.includes('containerDocument'))) {
             items[i].style.zIndex = 0;
             setActiveFalse(items[i].id);
             if (items[i].id.includes('container' + objName.charAt(0).toUpperCase() + objName.slice(1))) {
@@ -30,6 +30,9 @@ function setInactiveIcons(objName){
     for (let j = 0; j < objArray.length; j++) {
         if (objName != 'fishy' && objArray[j].id.includes('Fishy')) {
             document.getElementById('fishy' + objArray[j].index).style.backgroundColor = 'rgb(2, 0, 46)';
+        }
+        if (objName != 'browser' && objArray[j].id.includes('Browser')) {
+            document.getElementById('browser' + objArray[j].index).style.backgroundColor = 'rgb(2, 0, 46)';
         }
         if (objName != 'document' && objArray[j].id.includes('Document')) {
             document.getElementById('document' + objArray[j].index).style.backgroundColor = 'rgb(2, 0, 46)';
@@ -99,6 +102,9 @@ function createMenu(objName, container, menu, menu1, menuEntry1, menu2, menuEntr
     if(objName == 'fishy'){
         menu4.textContent = 'Fishy';
     }
+    if(objName == 'browser'){
+        menu4.textContent = 'Browser';
+    }
     if(objName == 'document'){
         for(let i=0; i<document.getElementsByClassName('document-icon').length; i++){
             if(document.getElementsByClassName('document-icon')[i].id == 'documentIcon' + this.index){
@@ -142,6 +148,9 @@ function createBarIcon(objName, newDiv, obj){
     }
     if(objName == 'fishy'){
         newDiv.id = 'fishy' + obj.index;
+    }
+    if(objName == 'browser'){
+        newDiv.id = 'browser' + obj.index;
     }
     if(objName == 'document'){
         newDiv.id = 'document' + obj.index;
@@ -247,6 +256,28 @@ function createContextMenu(e, objName, menu, num){
                 
                 let newImg = document.createElement('img');
                 assignImageToIcon('fishy', newDiv, newImg);
+            }
+            if(objName == 'browser'){
+                let browser = new Browser(openBrowser);
+                objArray.push(browser);
+    
+                newDiv = document.createElement('div');
+                createBarIcon('browser', newDiv, browser);
+    
+                newDiv.onclick = () => {
+                    browser.minimize();
+                    setInactiveIcons('browser');
+                    if (!browser.minimized) {
+                        browser.active = true;
+                        document.getElementById('browser' + browser.index).style.backgroundColor = 'rgb(5, 0, 80)';
+                        document.getElementById('containerBrowser' + browser.index).style.zIndex = 1;
+                    }
+                };
+    
+                document.getElementsByClassName('bottom-bar')[0].appendChild(newDiv);
+                
+                let newImg = document.createElement('img');
+                assignImageToIcon('browser', newDiv, newImg);
             }
             if(objName == 'document'){
                 e.stopPropagation();
@@ -480,6 +511,9 @@ function assignImageToIcon(objName, newDiv, newImg){
     if(objName == 'fishy'){
         s += 'fishy.jpg';
     }
+    if(objName == 'browser'){
+        s += 'browser.png';
+    }
     if(objName == 'document'){
         s += 'documents.png';
     }
@@ -544,6 +578,11 @@ function contextMenuIcon(menu, objName, i){
                 fishyCount--;
                 localStorage.setItem("fishyCount", fishyCount);
             }
+            if(objName == 'browser'){
+                localStorage.removeItem("browser" + i);
+                browserCount--;
+                localStorage.setItem("browserCount", browserCount);
+            }
         }
         menu.appendChild(thirdText);
     }
@@ -595,6 +634,9 @@ function createIcon(objName, num){
     }
     if(objName == 'fishy'){
         image.src = 'assets/img/fishy.jpg';
+    }
+    if(objName == 'browser'){
+        image.src = 'assets/img/browser.png';
     }
     if(objName == 'document'){
         image.src = 'assets/img/documents.png';
@@ -661,6 +703,28 @@ function createIcon(objName, num){
             
             let newImg = document.createElement('img');
             assignImageToIcon('fishy', newDiv, newImg);
+        }
+        if(objName == 'browser'){
+            let browser = new Browser(openBrowser);
+            objArray.push(browser);
+
+            newDiv = document.createElement('div');
+            createBarIcon('browser', newDiv, browser);
+
+            newDiv.onclick = () => {
+                browser.minimize();
+                setInactiveIcons('browser');
+                if (!browser.minimized) {
+                    browser.active = true;
+                    document.getElementById('browser' + browser.index).style.backgroundColor = 'rgb(5, 0, 80)';
+                    document.getElementById('containerBrowser' + browser.index).style.zIndex = 1;
+                }
+            };
+
+            document.getElementsByClassName('bottom-bar')[0].appendChild(newDiv);
+            
+            let newImg = document.createElement('img');
+            assignImageToIcon('browser', newDiv, newImg);
         }
     }
 
