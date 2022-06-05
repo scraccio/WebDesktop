@@ -46,27 +46,20 @@ class Browser {
         containerBrowser.style.resize = 'both';
 
         let iframe = document.createElement('iframe');
+        containerBrowser.appendChild(iframe);
         iframe.id = 'iframe' + this.index;
         iframe.src = 'https://www.google.com/search?igu=1';
         iframe.frameBorder = 0;
         //iframe.scrolling = 'no';
         iframe.style.position = 'absolute';
-        iframe.width = '101%';
-        iframe.height = '96.5%';
+        iframe.style.width = '101%';
+        iframe.style.height = 'calc(100% - 33px)';
         iframe.style.marginTop = '11px';
         iframe.style.marginLeft = '-4px';
-        iframe.style.left = '50%';
-        iframe.style.top = '50%';
-        iframe.style.transform = 'translate(-50%,-50%)';
+        iframe.style.top = '23px';
         iframe.style.visibility = 'hidden';
         iframe.onload = () => {
-            /*console.log(iframe.contentWindow.location.href);
-            if(browserHistory.length > 0){
-                browserHistory[browserHistory.length-1] = iframe.src;
-            }
-            else{
-                browserHistory[0] = iframe.src;
-            }*/
+            containerBrowser.classList.add('popupProgram');
             iframe.style.visibility = 'visible';
             if(!document.getElementById('menu' + this.index)){
                 let menu = document.createElement('div');
@@ -87,28 +80,42 @@ class Browser {
                 document.getElementById('containerBrowser' + this.index).style.zIndex = 1;
                 this.active = true;
                 document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
+
+                /*let browserBar = document.createElement('div');
+                browserBar.style.position = 'relative';
+                browserBar.style.width = '100%';
+                browserBar.style.height = '30px';
+                browserBar.style.backgroundColor = 'black';
+
+                containerBrowser.appendChild(browserBar);*/
             }
         };
-        containerBrowser.appendChild(iframe);
+
         document.body.appendChild(containerBrowser);
     }
 
     minimize() {
         if (this.minimized && !this.active) {
-            document.getElementById('containerBrowser' + this.index).style.visibility = 'visible';
-            document.getElementById('iframe' + this.index).style.visibility = 'visible';
+            //document.getElementById('containerBrowser' + this.index).style.visibility = 'visible';
+            //document.getElementById('iframe' + this.index).style.visibility = 'visible';
             document.getElementById('containerBrowser' + this.index).style.zIndex = 1;
             document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
             this.active = true;
             this.minimized = false;
+
+            document.getElementById('containerBrowser' + this.index).classList.add('popupProgram');
+            document.getElementById('containerBrowser' + this.index).classList.remove('antiPopupProgram');
         }
         else if (!this.minimized && this.active) {
-            document.getElementById('containerBrowser' + this.index).style.visibility = 'hidden';
-            document.getElementById('iframe' + this.index).style.visibility = 'hidden';
+            //document.getElementById('containerBrowser' + this.index).style.visibility = 'hidden';
+            //document.getElementById('iframe' + this.index).style.visibility = 'hidden';
             document.getElementById('containerBrowser' + this.index).style.zIndex = 0;
             document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(2, 0, 46)';
             this.active = false;
             this.minimized = true;
+
+            document.getElementById('containerBrowser' + this.index).classList.add('antiPopupProgram');
+            document.getElementById('containerBrowser' + this.index).classList.remove('popupProgram');
         }
     }
 
@@ -137,8 +144,18 @@ class Browser {
     }
 
     cross() {
-        document.getElementById('containerBrowser' + this.index).remove();
-        document.getElementById('browser' + this.index).remove();
+        document.getElementById('containerBrowser' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('containerBrowser' + this.index).remove();
+        });
+        document.getElementById('containerBrowser' + this.index).classList.remove('popupProgram');
+        document.getElementById('containerBrowser' + this.index).classList.add('antiPopupProgram');
+        
+        document.getElementById('browser' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('browser' + this.index).remove();
+        });
+        document.getElementById('browser' + this.index).classList.remove('popupProgram');
+        document.getElementById('browser' + this.index).classList.add('antiPopupProgram');
+        
         for (let i = 0; i < objArray.length; i++) {
             if (this.id == objArray[i].id) {
                 objArray.splice(i, 1);

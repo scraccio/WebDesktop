@@ -24,7 +24,7 @@ class Document {
         let container = document.createElement('div');
         container.id = "containerDocument" + this.index;
         this.id = container.id;
-        container.className = 'container';
+        container.className = 'container popupProgram';
         container.style.resize = 'both';
         container.style.overflow = 'auto';
         container.style.minWidth = '220px';
@@ -65,18 +65,24 @@ class Document {
 
     minimize() {
         if (this.minimized && !this.active) {
-            document.getElementById('containerDocument' + this.index).style.visibility = 'visible';
-            document.getElementById('containerDocument' + this.index).style.zIndex = 1;
+            //document.getElementById('containerDocument' + this.index).style.visibility = 'visible';
+            //document.getElementById('containerDocument' + this.index).style.zIndex = 1;
             document.getElementById('document' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
             this.active = true;
             this.minimized = false;
+
+            document.getElementById('containerDocument' + this.index).classList.add('popupProgram');
+            document.getElementById('containerDocument' + this.index).classList.remove('antiPopupProgram');
         }
         else if (!this.minimized && this.active) {
-            document.getElementById('containerDocument' + this.index).style.visibility = 'hidden';
-            document.getElementById('containerDocument' + this.index).style.zIndex = 0;
+            //document.getElementById('containerDocument' + this.index).style.visibility = 'hidden';
+            //document.getElementById('containerDocument' + this.index).style.zIndex = 0;
             document.getElementById('document' + this.index).style.backgroundColor = 'rgb(2, 0, 46)';
             this.active = false;
             this.minimized = true;
+
+            document.getElementById('containerDocument' + this.index).classList.add('antiPopupProgram');
+            document.getElementById('containerDocument' + this.index).classList.remove('popupProgram');
         }
     }
 
@@ -169,8 +175,17 @@ class Document {
             noRiquadro.appendChild(no);
         }
         else {
-            document.getElementById('containerDocument' + this.index).remove();
-            document.getElementById('document' + this.index).remove();
+            document.getElementById('containerDocument' + this.index).addEventListener('animationend', ()=>{
+                document.getElementById('containerDocument' + this.index).remove();
+            })
+            document.getElementById('containerDocument' + this.index).classList.remove('popupProgram');
+            document.getElementById('containerDocument' + this.index).classList.add('antiPopupProgram');
+            
+            document.getElementById('document' + this.index).addEventListener('animationend', ()=>{
+                document.getElementById('document' + this.index).remove();
+            })
+            document.getElementById('document' + this.index).classList.remove('popupProgram');
+            document.getElementById('document' + this.index).classList.add('antiPopupProgram');
             for (let i = 0; i < objArray.length; i++) {
                 if (this.id == objArray[i].id) {
                     objArray.splice(i, 1);
@@ -241,7 +256,7 @@ function newDocument(num) {
     localStorage.setItem("documentCount", documentCount);
 
     let div = document.createElement('div');
-    div.className = 'document-icon icon';
+    div.className = 'document-icon icon popup';
     div.id = 'documentIcon' + num;
     
     if(!localStorage.getItem("document" + num)){
@@ -267,10 +282,18 @@ function newDocument(num) {
     
     div.onclick = (e) => {
         e.stopPropagation();
+        if(document.getElementById('contextmenu')){
+            document.getElementById('contextmenu').classList.add('antiPopup');
+            document.getElementById('contextmenu').classList.remove('popup');
+            document.getElementById('contextmenu').addEventListener('transitionend', ()=>{
+                document.getElementById('contextmenu').remove();
+            });
+        }
         if(document.getElementById('document' + num)){
             let error = document.createElement('div');
             error.style.position = 'absolute';
             error.id = 'error';
+            error.className = 'popup';
             error.style.width = '200px';
             error.style.height = '100px';
             error.style.backgroundColor = 'rgb(200,200,200)';
@@ -293,9 +316,13 @@ function newDocument(num) {
             error.appendChild(errorMessage);
 
             setTimeout(()=>{
-                if(document.getElementById('error')){
-                    document.getElementById('error').remove();
-                }}, 1000);
+
+                error.classList.add('antiPopup');
+                error.classList.remove('popup');
+                error.addEventListener('animationend', ()=>{
+                    error.remove();
+                });
+            }, 1000);
         }
         else{
             let documento = new Document(num);

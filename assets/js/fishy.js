@@ -34,9 +34,8 @@ class Fishy {
         containerFishy.style.width = '80%';
         containerFishy.style.height = '80%';
         containerFishy.style.position = 'absolute';
-        containerFishy.style.left = '50%';
-        containerFishy.style.top = '50%';
-        containerFishy.style.transform = 'translate(-50%,-50%)';
+        containerFishy.style.left = '10%';
+        containerFishy.style.top = '10%';
         containerFishy.style.borderTopLeftRadius = '10px';
         containerFishy.style.borderTopRightRadius = '10px';
         containerFishy.style.borderBottomLeftRadius = '10px';
@@ -57,7 +56,7 @@ class Fishy {
         iframe.style.top = '50%';
         iframe.style.transform = 'translate(-50%,-50%)';
         iframe.onload = () => {
-
+            containerFishy.className = 'popupProgram';
             let menu = document.createElement('div');
             let menu1 = document.createElement('div');
             let menuEntry1 = document.createElement('div');
@@ -83,24 +82,38 @@ class Fishy {
 
     minimize() {
         if (this.minimized && !this.active) {
-            document.getElementById('containerFishy' + this.index).style.visibility = 'visible';
-            document.getElementById('containerFishy' + this.index).style.zIndex = 1;
+            //document.getElementById('containerFishy' + this.index).style.visibility = 'visible';
+            //document.getElementById('containerFishy' + this.index).style.zIndex = 1;
             document.getElementById('fishy' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
             this.active = true;
             this.minimized = false;
+            document.getElementById(this.id).classList.add('popupProgram');
+            document.getElementById(this.id).classList.remove('antiPopupProgram');
+
         }
         else if (!this.minimized && this.active) {
-            document.getElementById('containerFishy' + this.index).style.visibility = 'hidden';
-            document.getElementById('containerFishy' + this.index).style.zIndex = 0;
+            //document.getElementById('containerFishy' + this.index).style.visibility = 'hidden';
+            //document.getElementById('containerFishy' + this.index).style.zIndex = 0;
             document.getElementById('fishy' + this.index).style.backgroundColor = 'rgb(2, 0, 46)';
             this.active = false;
             this.minimized = true;
+            document.getElementById(this.id).classList.remove('popupProgram');
+            document.getElementById(this.id).classList.add('antiPopupProgram');
         }
     }
 
     cross() {
-        document.getElementById('containerFishy' + this.index).remove();
-        document.getElementById('fishy' + this.index).remove();
+        document.getElementById('containerFishy' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('containerFishy' + this.index).remove();
+        });
+        document.getElementById('containerFishy' + this.index).classList.remove('popupProgram');
+        document.getElementById('containerFishy' + this.index).classList.add('antiPopupProgram');
+        
+        document.getElementById('fishy' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('fishy' + this.index).remove();
+        });
+        document.getElementById('fishy' + this.index).classList.remove('popupProgram');
+        document.getElementById('fishy' + this.index).classList.add('antiPopupProgram');
         for (let i = 0; i < objArray.length; i++) {
             if (this.id == objArray[i].id) {
                 objArray.splice(i, 1);

@@ -39,6 +39,7 @@ class Terminal {
         container.style.minWidth = '220px';
         container.style.minHeight = '65px';
         container.style.zIndex = 0;
+        container.className += ' popupProgram';
 
         container.addEventListener('mousedown', () => {
             setInactiveIcons('terminal');
@@ -63,10 +64,9 @@ class Terminal {
         createMenu.call(this, 'terminal', container, menu, menu1, menuEntry1, menu2, menuEntry2, menu3, menuEntry3, menu4, textField);
 
         document.body.appendChild(container);
-
         container.addEventListener("keydown", (e) => {this.keyPress(e);});
         textField.addEventListener("click", (e) => {
-            e.stopPropagation();
+            e.stopPropagation();    
             e.preventDefault();
             setTimeout(document.getElementById('line' + this.curr + this.index).focus(), 10);
         });
@@ -84,24 +84,40 @@ class Terminal {
 
     minimize() {
         if (this.minimized && !this.active) {
-            document.getElementById('containerTerminal' + this.index).style.visibility = 'visible';
-            document.getElementById('containerTerminal' + this.index).style.zIndex = 1;
+            //document.getElementById('containerTerminal' + this.index).style.visibility = 'visible';
+            //document.getElementById('containerTerminal' + this.index).style.zIndex = 1;
             document.getElementById('terminal' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
             this.active = true;
             this.minimized = false;
+
+            document.getElementById("containerTerminal" + this.index).classList.add('popupProgram');
+            document.getElementById("containerTerminal" + this.index).classList.remove('antiPopupProgram');
         }
         else if (!this.minimized && this.active) {
-            document.getElementById('containerTerminal' + this.index).style.visibility = 'hidden';
-            document.getElementById('containerTerminal' + this.index).style.zIndex = 0;
+            //document.getElementById('containerTerminal' + this.index).style.visibility = 'hidden';
+            //document.getElementById('containerTerminal' + this.index).style.zIndex = 0;
             document.getElementById('terminal' + this.index).style.backgroundColor = 'rgb(2, 0, 46)';
             this.active = false;
             this.minimized = true;
+            
+            document.getElementById("containerTerminal" + this.index).classList.add('antiPopupProgram');
+            document.getElementById("containerTerminal" + this.index).classList.remove('popupProgram');
         }
     }
 
     cross() {
-        document.getElementById('containerTerminal' + this.index).remove();
-        document.getElementById('terminal' + this.index).remove();
+        document.getElementById('containerTerminal' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('containerTerminal' + this.index).remove();
+        });
+        document.getElementById('containerTerminal' + this.index).classList.add('antiPopupProgram');
+        document.getElementById('containerTerminal' + this.index).classList.remove('popupProgram');
+        
+        document.getElementById('terminal' + this.index).addEventListener('animationend', ()=>{
+            document.getElementById('terminal' + this.index).remove();
+        });
+        document.getElementById('terminal' + this.index).classList.add('antiPopupProgram');
+        document.getElementById('terminal' + this.index).classList.remove('popupProgram');
+        
         for (let i = 0; i < objArray.length; i++) {
             if (this.id == objArray[i].id) {
                 objArray.splice(i, 1);
@@ -112,22 +128,30 @@ class Terminal {
 
     maximize() {
         if (this.maximized) {
-            document.getElementById('containerTerminal' + this.index).style.width = '50%';
-            document.getElementById('containerTerminal' + this.index).style.height = '55%';
-            document.getElementById('containerTerminal' + this.index).style.top = this.oldTop;
-            document.getElementById('containerTerminal' + this.index).style.left = this.oldLeft;
+            //document.getElementById('containerTerminal' + this.index).style.top = null;
+            //document.getElementById('containerTerminal' + this.index).style.left = null;
+            document.getElementById(this.id).classList.toggle('maximizeAnimation');
+            //document.getElementById('containerTerminal' + this.index).style.width = '50%';
+            //document.getElementById('containerTerminal' + this.index).style.height = '55%';
+            //document.getElementById('containerTerminal' + this.index).style.top = this.oldTop;
+            //document.getElementById('containerTerminal' + this.index).style.left = this.oldLeft;
             document.getElementById('menu' + this.index).style.borderTopLeftRadius = '5px';
             document.getElementById('menu' + this.index).style.borderTopRightRadius = '5px';
             document.getElementById('containerTerminal' + this.index).style.borderBottomLeftRadius = '1%';
             document.getElementById('containerTerminal' + this.index).style.borderBottomLeftRadius = '1%';
         }
         else {
-            document.getElementById('containerTerminal' + this.index).style.width = '100%';
-            document.getElementById('containerTerminal' + this.index).style.height = '100%';
-            this.oldTop = document.getElementById('containerTerminal' + this.index).style.top;
-            this.oldLeft = document.getElementById('containerTerminal' + this.index).style.left;
-            document.getElementById('containerTerminal' + this.index).style.top = 0;
-            document.getElementById('containerTerminal' + this.index).style.left = 0;
+            document.getElementById('containerTerminal' + this.index).style.top = null;
+            document.getElementById('containerTerminal' + this.index).style.left = null;
+            document.getElementById('containerTerminal' + this.index).style.width = null;
+            document.getElementById('containerTerminal' + this.index).style.height = null;
+            document.getElementById(this.id).classList.toggle('maximizeAnimation');
+            //document.getElementById('containerTerminal' + this.index).style.width = '100%';
+            //document.getElementById('containerTerminal' + this.index).style.height = '100%';
+            //this.oldTop = document.getElementById('containerTerminal' + this.index).style.top;
+            //this.oldLeft = document.getElementById('containerTerminal' + this.index).style.left;
+            //document.getElementById('containerTerminal' + this.index).style.top = 0;
+            //document.getElementById('containerTerminal' + this.index).style.left = 0;
             document.getElementById('menu' + this.index).style.borderTopLeftRadius = 0;
             document.getElementById('menu' + this.index).style.borderTopRightRadius = 0;
             document.getElementById('textField' + this.index).style.borderBottomLeftRadius = 0;

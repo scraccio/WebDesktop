@@ -305,9 +305,12 @@ function createContextMenu(e, objName, menu, num){
                     error.appendChild(errorMessage);
     
                     setTimeout(()=>{
-                        if(document.getElementById('error')){
-                            document.getElementById('error').remove();
-                        }}, 1000);
+                        error.classList.remove('popup');
+                        error.classList.add('antiPopup');
+                        error.addEventListener('animationend', ()=>{
+                            error.remove();
+                        });
+                    }, 1000);
                 }
                 else{
                     let documento = new Document(num);
@@ -358,7 +361,11 @@ function createContextMenu(e, objName, menu, num){
                         firstText.id = 'firstText';
                         firstText.onclick = (e) => {
                             e.stopPropagation();
-                            document.getElementById('contextmenu').remove();
+                            document.getElementById('contextmenu').classList.remove('popup');
+                            document.getElementById('contextmenu').classList.add('antiPopup');
+                            document.getElementById('contextmenu').addEventListener('transitionEnd', ()=>{
+                                document.getElementById('contextmenu').remove();
+                            });
                             let error = document.createElement('div');
                             error.style.position = 'absolute';
                             error.id = 'error';
@@ -389,7 +396,13 @@ function createContextMenu(e, objName, menu, num){
                             //errorMessage.style.transform = 'translate(-50%,-50%)';
                             error.appendChild(errorMessage);
     
-                            setTimeout(()=>{document.getElementById('error').remove()}, 1000);
+                            setTimeout(()=>{
+                                error.classList.remove('popup');
+                                error.classList.add('antiPopup');
+                                error.addEventListener('animationend', ()=>{
+                                    error.remove();
+                                });
+                            }, 1000);
                         }
                         firstText.style.position = 'relative';
                         //firstText.innerHTML += '\x20';
@@ -525,9 +538,9 @@ function assignImageToIcon(objName, newDiv, newImg){
     newImg.style.width = '30px';
     newImg.style.height = '30px';
     newImg.style.position = 'absolute';
-    newImg.style.top = '50%';
-    newImg.style.left = '50%';
-    newImg.style.transform = 'translate(-50%, -50%)';
+    newImg.style.top = '20%';
+    newImg.style.left = '20%';
+    newImg.classList.add('popupProgram');
     newDiv.appendChild(newImg);
 }
 
@@ -566,7 +579,11 @@ function contextMenuIcon(menu, objName, i){
             }
             for(let j=0; j<document.getElementsByClassName(objName + '-icon').length; j++){
                 if(document.getElementsByClassName(objName + '-icon')[j].id == objName + 'Icon' + i){
-                    document.getElementsByClassName(objName + '-icon')[j].remove();
+                    document.getElementsByClassName(objName + '-icon')[j].addEventListener('animationend', ()=>{
+                        document.getElementsByClassName(objName + '-icon')[j].remove();
+                    });
+                    document.getElementsByClassName(objName + '-icon')[j].classList.add('antiPopup');
+                    document.getElementsByClassName(objName + '-icon')[j].classList.remove('popup');
                 }
             }
             if(objName == 'document'){
@@ -607,7 +624,11 @@ function contextMenuIcon(menu, objName, i){
         fourthText.onclick = (e) => {
             e.stopPropagation();
             e.preventDefault();
-            document.getElementById('contextmenu').remove();
+            document.getElementById('contextmenu').classList.remove('popup');
+            document.getElementById('contextmenu').classList.add('antiPopup');
+            document.getElementById('contextmenu').addEventListener('transitionEnd', ()=>{
+                document.getElementById('contextmenu').remove();
+            });
             let target = document.getElementById(objName + 'Icon' + i).querySelector('div');
             target.contentEditable = true;
             target.style.outline = '0px';
@@ -639,7 +660,7 @@ function createIcon(objName, num){
     }
 
     let div = document.createElement('div');
-    div.className = objName + '-icon icon';
+    div.className = objName + '-icon icon popup';
     div.id = objName + 'Icon' + num;
     
     if(objName == 'document' && !localStorage.getItem("document" + num)){
@@ -648,21 +669,18 @@ function createIcon(objName, num){
 
     document.getElementById('column' + currentColumn).appendChild(div);
 
-    let image = document.createElement('img');
     if(objName == 'terminal'){
-        image.src = 'assets/img/terminal.png';
+        div.appendChild(terminalIconDesktop.cloneNode(true));
     }
     if(objName == 'fishy'){
-        image.src = 'assets/img/fishy.jpg';
+        div.appendChild(fishyIconDesktop);
     }
     if(objName == 'browser'){
-        image.src = 'assets/img/browser.png';
+        div.appendChild(browserIconDesktop);
     }
     if(objName == 'document'){
-        image.src = 'assets/img/documents.png';
+        div.appendChild(documentIconDesktop);
     }
-    image.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
-    div.appendChild(image);
 
     let icondiv = document.createElement('div');
     icondiv.className = 'icon-text';
@@ -680,6 +698,13 @@ function createIcon(objName, num){
 
     div.onclick = (e) => {
         e.stopPropagation();
+        if(document.getElementById('contextmenu')){
+            document.getElementById('contextmenu').classList.add('antiPopup');
+            document.getElementById('contextmenu').classList.remove('popup');
+            document.getElementById('contextmenu').addEventListener('transitionend', ()=>{
+                document.getElementById('contextmenu').remove();
+            });
+        }
         if(objName == 'terminal'){
             let terminal = new Terminal(openTerminal);
             objArray.push(terminal);
@@ -806,6 +831,15 @@ function preloadImages()
     browserIcon.style.marginRight = '-5px';
     browserIcon.style.marginTop = '-5px';
     browserIcon.style.marginBottom = '-5px';
+
+    terminalIconDesktop.src='assets/img/terminal.png';
+    terminalIconDesktop.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+    fishyIconDesktop.src='assets/img/fishy.jpg';
+    fishyIconDesktop.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+    documentIconDesktop.src='assets/img/documents.png';
+    documentIconDesktop.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+    browserIconDesktop.src='assets/img/browser.png';
+    browserIconDesktop.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
 }
 
 function removeRename(){
