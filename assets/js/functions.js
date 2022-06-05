@@ -191,12 +191,13 @@ function createContextMenu(e, objName, menu, num){
         menu.style.top = y + "px";
     }
     menu.style.width = '120px';
-    menu.style.height = '62px';
+    menu.style.height = '57px';
     menu.style.backgroundColor = 'rgb(240, 240, 240)';
     menu.style.padding = '5px';
     menu.style.borderRadius = '5px';
     menu.style.zIndex = 3;
     menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+    menu.className = 'popup';
 
     let firstText;
     if(!document.getElementById('firstText')){
@@ -609,6 +610,7 @@ function contextMenuIcon(menu, objName, i){
             document.getElementById('contextmenu').remove();
             let target = document.getElementById(objName + 'Icon' + i).querySelector('div');
             target.contentEditable = true;
+            target.style.outline = '0px';
             target.style.color = 'black';
             target.style.backgroundColor = 'white';
             setTimeout(()=>{target.focus();});
@@ -757,43 +759,53 @@ function createIcon(objName, num){
     }
 }
 
-function initializeIcons(){
+function preloadImages()
+{
+    openIcon.src='assets/img/openIcon.png';
+    openIcon.style.transform = 'scale(0.5)';
 
-    for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
-            fileArray.push(parseInt(localStorage.key(i).slice(8)));
-        }
-    }
-    fileArray = fileArray.sort(function (a, b) {return a - b;});
+    closeIcon.src='assets/img/closeIcon.png';
+    closeIcon.style.transform = 'scale(0.6)';
 
+    deleteIcon.src='assets/img/deleteIcon.png';
+    deleteIcon.style.transform = 'scale(0.5)';
 
-    for(let i=0; i<localStorage.length; i++){
-        if(localStorage.key(i) == 'terminalCount'){
-            for(let j=0; j<localStorage.getItem('terminalCount'); j++){
-                createIcon('terminal', i);
-                terminalCount++;
-            }
-        }
-        if(localStorage.key(i) == 'fishyCount'){
-            for(let j=0; j<localStorage.getItem('fishyCount'); j++){
-                createIcon('fishy', i);
-                fishyCount++;
-            }
-        }
-    }
+    renameIcon.src='assets/img/renameIcon.png';
+    renameIcon.style.transform = 'scale(0.5)';
 
-    for (let i = 0; i < fileArray.length; i++) {
-        newDocument(fileArray[i]);
-    }
+    copyIcon.src='assets/img/copyIcon.png';
+    copyIcon.style.transform = 'scale(0.6)';
 
-}
+    pasteIcon.src='assets/img/pasteIcon.png';
+    pasteIcon.style.transform = 'scale(0.5)';
+    pasteIcon.style.position = 'relative';
+    pasteIcon.style.left = '-7px';
+    pasteIcon.style.marginRight = '-12px';
+    pasteIcon.style.marginTop = '-5px';
+    pasteIcon.style.marginBottom = '-5px';
 
-function removeIcons(){
-    let items = Array.from(document.getElementsByTagName('div'));
-    items = items.filter(x=>x.className && x.className.includes('icon'));
-    for(let i=0; i<items.length; i++){
-        items[i].remove();
-    }
+    newIcon.src='assets/img/newIcon.png';
+    newIcon.style.transform = 'scale(0.4)';
+
+    terminalIcon.src='assets/img/terminalIcon.png';
+    terminalIcon.style.transform = 'scale(0.8)';
+    terminalIcon.style.marginRight = '2px';
+
+    fishyIcon.src='assets/img/fishyIcon.png';
+    fishyIcon.style.transform = 'scale(0.8)';
+    fishyIcon.style.marginRight = '3px';
+
+    documentIcon.src='assets/img/documentIcon.png';
+    documentIcon.style.transform = 'scale(0.8)';
+    documentIcon.style.marginRight = '3px';
+
+    browserIcon.src='assets/img/browserIcon.png';
+    browserIcon.style.transform = 'scale(0.5)';
+    browserIcon.style.position = 'relative';
+    browserIcon.style.left = '-4px';
+    browserIcon.style.marginRight = '-5px';
+    browserIcon.style.marginTop = '-5px';
+    browserIcon.style.marginBottom = '-5px';
 }
 
 function removeRename(){

@@ -352,6 +352,26 @@
 			color: white;
 			background: black;
 		}
+
+		@keyframes popup{
+			0%{
+				opacity: 0;
+				transform: scale(0.5);
+			}
+			70%{
+				opacity: 100%;
+				transform: scale(1.1);
+			}
+			100%{
+				opacity: 100%;
+				transform: scale(1);
+			}
+		}
+
+		.popup{
+			animation: popup 0.1s linear forwards 1;
+		}
+
 	</style>
 </head>
 
@@ -401,9 +421,27 @@
 		let openFishy = 0;
 		let openBrowser = 0;
 
+		localStorage.setItem('terminalCount', 1);
+		localStorage.setItem('fishyCount', 1);
+		localStorage.setItem('documentCount', 1);
+		localStorage.setItem('browserCount', 1);
+
 		let fileArray = [];
 
 		let browserHistory = [];
+
+		let openIcon = new Image();
+		let closeIcon = new Image();
+		let deleteIcon = new Image();
+		let renameIcon = new Image();
+		let copyIcon = new Image();
+		let pasteIcon = new Image();
+		let newIcon = new Image();
+		let terminalIcon = new Image();
+		let fishyIcon = new Image();
+		let documentIcon = new Image();
+		let browserIcon = new Image();
+		preloadImages();
 
 		for (let i = 0; i < localStorage.length; i++) {
 			if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
@@ -466,6 +504,7 @@
 				menu.style.borderRadius = '5px';
 				menu.style.zIndex = 3;
 				menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+				menu.className = 'popup';
 
 				let firstText = document.createElement("div");
 				firstText.id = 'firstText';
@@ -474,19 +513,20 @@
 					let blocco = document.createElement('div');
 					blocco.style.userSelect = 'none';
 					blocco.style.width = '150px';
-					blocco.style.height = '120px';
+					blocco.style.height = '115px';
 					blocco.id = 'blocco';
 					blocco.style.position = 'absolute';
 					blocco.style.padding = '5px';
 					blocco.style.boxSizing = 'border-box';
-					blocco.style.top = '-1px';
-					blocco.style.left = '92px'
+					blocco.style.top = '-5px';
+					blocco.style.left = '96px'
 					//blocco.style.border = '1px solid black';
 					blocco.style.backgroundColor = 'rgb(240, 240, 240)';
 					blocco.style.color = 'rgb(75, 89, 94)';
 					blocco.style.fontSize = '13px';
 					blocco.style.borderRadius = '5px';
 					blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
+					blocco.className = 'popup';
 					firstText.appendChild(blocco);
 
 					let blocco1 = document.createElement('div');
@@ -497,7 +537,9 @@
 					blocco1.style.marginTop = '2px';
 					blocco1.style.marginBottom = '2px';
 					blocco1.style.borderRadius = '5px';
-					blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
+					blocco1.appendChild(documentIcon);
+					blocco1.innerHTML += 'Documento';
+					//blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
 					blocco1.style.display = 'flex';
 					blocco1.style.alignItems = 'center';
 					//blocco1.textContent = 'Documento';
@@ -523,13 +565,15 @@
 					blocco2.style.marginTop = '2px';
 					blocco2.style.marginBottom = '2px';
 					blocco2.style.borderRadius = '5px';
-					blocco2.innerHTML += '\xA0' + '<img src="assets/img/terminalIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Terminale';
+					blocco2.appendChild(terminalIcon);
+					blocco2.innerHTML += 'Terminal';
+					//blocco2.innerHTML += '\xA0' + '<img src="assets/img/terminalIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Terminale';
 					blocco2.style.display = 'flex';
 					blocco2.style.alignItems = 'center';
 					//blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
 					blocco2.onclick = () => {
-						terminalCount++;
 						createIcon('terminal', terminalCount);
+						terminalCount++;
 						localStorage.setItem('terminalCount', terminalCount);
 						menu.remove();
 					}
@@ -543,7 +587,9 @@
 					blocco3.style.marginTop = '2px';
 					blocco3.style.marginBottom = '2px';
 					blocco3.style.borderRadius = '5px';
-					blocco3.innerHTML += '\xA0' + '<img src="assets/img/fishyIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Fishy';
+					blocco3.appendChild(fishyIcon);
+					blocco3.innerHTML += 'Fishy';
+					//blocco3.innerHTML += '\xA0' + '<img src="assets/img/fishyIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Fishy';
 					blocco3.style.display = 'flex';
 					blocco3.style.alignItems = 'center';
 					//blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
@@ -563,7 +609,8 @@
 					blocco4.style.marginTop = '2px';
 					blocco4.style.marginBottom = '2px';
 					blocco4.style.borderRadius = '5px';
-					blocco4.innerHTML += '<img src="assets/img/browserIcon.png" style="transform: scale(0.5);"/>' + 'Browser';
+					blocco4.appendChild(browserIcon);
+					blocco4.innerHTML += 'Browser';
 					blocco4.style.display = 'flex';
 					blocco4.style.alignItems = 'center';
 					//blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
@@ -592,9 +639,7 @@
 				menu.appendChild(firstText);
 
 				if (copied) {
-					firstText.style.borderBottomLeftRadius = '0';
-					firstText.style.borderBottomRightRadius = '0';
-					menu.style.height = '42px';
+					menu.style.height = '56px';
 					let secondText = document.createElement("div");
 					secondText.id = 'secondText';
 					secondText.onclick = () => {
@@ -631,13 +676,16 @@
 						copied = false;
 					}
 					secondText.style.position = 'relative';
-					secondText.textContent = '\xA0' + 'Incolla';
+					secondText.appendChild(pasteIcon);
+					secondText.innerHTML += 'Incolla';
 					secondText.style.color = 'rgb(75, 89, 94)';
 					secondText.style.fontSize = '14px';
 					secondText.style.fontFamily = 'Sans-Serif';
 					secondText.style.fontWeight = '700';
 					secondText.style.display = 'flex';
 					secondText.style.alignItems = 'center';
+					secondText.style.marginTop = '2px';
+					secondText.style.marginBottom = '2px';
 					secondText.style.borderRadius = '5px';
 					secondText.style.cursor = 'default';
 					menu.appendChild(secondText);

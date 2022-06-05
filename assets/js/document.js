@@ -28,6 +28,7 @@ class Document {
         container.style.resize = 'both';
         container.style.overflow = 'auto';
         container.style.minWidth = '220px';
+        container.style.minHeight = '65px';
         container.style.zIndex = 0;
         container.addEventListener('mousedown', () => {
             setInactiveIcons('document');
