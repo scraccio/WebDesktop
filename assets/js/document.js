@@ -90,14 +90,15 @@ class Document {
         
         if ((!localStorage.getItem('document' + this.index) && document.getElementById('textFieldDoc' + this.index).innerHTML != '') || (localStorage.getItem('document' + this.index) && JSON.parse(localStorage.getItem('document' + this.index)) != document.getElementById('textFieldDoc'+this.index).innerHTML )) {
             let confirm = document.createElement('div');
+            confirm.className = 'popup';
             confirm.style.width = '120px';
             confirm.style.height = '80px';
             confirm.style.position = 'absolute';
-            confirm.style.top = '50%';
-            confirm.style.left = '50%';
-            confirm.style.transform = 'translate(-50%,-50%)';
-            confirm.style.backgroundColor = 'rgb(200,200,200)';
-            confirm.style.border = '1px solid black';
+            confirm.style.top = '40%';
+            confirm.style.left = '40%';
+            confirm.style.backgroundColor = 'rgb(240, 240, 240)';
+            confirm.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+            confirm.style.fontFamily = 'Sans-Serif';
             confirm.style.borderRadius = '5px';
             document.getElementById('textFieldDoc' + this.index).contentEditable = false;
             confirm.contentEditable = false;
@@ -105,23 +106,23 @@ class Document {
 
             let text = document.createElement('div');
             text.textContent = 'Vuoi salvare?';
-            text.style.color = 'black';
+            text.style.color = 'rgb(75, 89, 94)';
             text.style.position = 'absolute';
             text.style.width = '100px';
-            text.style.top = '50%';
-            text.style.left = '50%';
-            text.style.transform = 'translate(-45%,-150%)';
+            text.style.top = '20%';
+            text.style.left = '12%';
             confirm.appendChild(text);
 
             let yesRiquadro = document.createElement('div');
             yesRiquadro.style.position = 'absolute';
+            yesRiquadro.className = 'notScaled';
             yesRiquadro.style.width = '30px';
             yesRiquadro.style.height = '30px';
             yesRiquadro.style.top = '50%';
             yesRiquadro.style.left = '50%';
             yesRiquadro.style.transform = 'translateX(-150%)';
-            yesRiquadro.style.border = '1px solid black';
             yesRiquadro.style.borderRadius = '5px';
+            yesRiquadro.style.boxShadow = '1px 1px 3px rgb(14, 14, 14)';
             confirm.appendChild(yesRiquadro);
             yesRiquadro.onclick = () => {
                 localStorage.setItem("document" + this.index, JSON.stringify(document.getElementById('textFieldDoc' + this.index).innerHTML));
@@ -133,10 +134,16 @@ class Document {
                     }
                 }
             }
+            yesRiquadro.onmouseover = ()=>{
+                yesRiquadro.style.backgroundColor = 'rgb(220, 220, 220)';
+            }
+            yesRiquadro.onmouseout = ()=>{
+                yesRiquadro.style.backgroundColor = 'rgb(240, 240, 240)';
+            }
 
             let yes = document.createElement('div');
             yes.textContent = 'Si';
-            yes.style.color = 'black';
+            yes.style.color = 'rgb(75, 89, 94)';
             yes.style.position = 'absolute';
             yes.style.top = '50%';
             yes.style.left = '50%';
@@ -151,8 +158,8 @@ class Document {
             noRiquadro.style.top = '50%';
             noRiquadro.style.left = '50%';
             noRiquadro.style.transform = 'translateX(50%)';
-            noRiquadro.style.border = '1px solid black';
             noRiquadro.style.borderRadius = '5px';
+            noRiquadro.style.boxShadow = '1px 1px 3px rgb(14, 14, 14)';
             confirm.appendChild(noRiquadro);
             noRiquadro.onclick = () => {
                 document.getElementById('containerDocument' + this.index).remove();
@@ -163,10 +170,16 @@ class Document {
                     }
                 }
             }
+            noRiquadro.onmouseover = ()=>{
+                noRiquadro.style.backgroundColor = 'rgb(220, 220, 220)';
+            }
+            noRiquadro.onmouseout = ()=>{
+                noRiquadro.style.backgroundColor = 'rgb(240, 240, 240)';
+            }
 
             let no = document.createElement('div');
             no.textContent = 'No';
-            no.style.color = 'black';
+            no.style.color = 'rgb(75, 89, 94)';
             no.style.position = 'absolute';
             no.style.top = '50%';
             no.style.left = '50%';
@@ -196,24 +209,32 @@ class Document {
 
     maximize() {
         if (this.maximized) {
-            document.getElementById('containerDocument' + this.index).style.width = '50%';
-            document.getElementById('containerDocument' + this.index).style.height = '55%';
-            document.getElementById('containerDocument' + this.index).style.top = this.oldTop;
-            document.getElementById('containerDocument' + this.index).style.left = this.oldLeft;
-            document.getElementById('menu' + this.index).style.borderTopLeftRadius = '5px';
-            document.getElementById('menu' + this.index).style.borderTopRightRadius = '5px';
+            //document.getElementById('containerDocument' + this.index).style.width = '50%';
+            //document.getElementById('containerDocument' + this.index).style.height = '55%';
+            document.getElementById('containerDocument' + this.index).classList.toggle('maximizeAnimation');
+            document.getElementById('containerDocument' + this.index).classList.add('containerMaximize');
+            setTimeout(()=>{document.getElementById('containerDocument' + this.index).classList.remove('containerMaximize')}, 210);
+            //document.getElementById('containerDocument' + this.index).style.top = this.oldTop;
+            //document.getElementById('containerDocument' + this.index).style.left = this.oldLeft;
+            document.getElementById('menuDocument' + this.index).style.borderTopLeftRadius = '5px';
+            document.getElementById('menuDocument' + this.index).style.borderTopRightRadius = '5px';
             document.getElementById('containerDocument' + this.index).style.borderBottomLeftRadius = '1%';
             document.getElementById('containerDocument' + this.index).style.borderBottomLeftRadius = '1%';
         }
         else {
-            document.getElementById('containerDocument' + this.index).style.width = '100%';
-            document.getElementById('containerDocument' + this.index).style.height = '100%';
-            this.oldTop = document.getElementById('containerDocument' + this.index).style.top;
-            this.oldLeft = document.getElementById('containerDocument' + this.index).style.left;
-            document.getElementById('containerDocument' + this.index).style.top = 0;
-            document.getElementById('containerDocument' + this.index).style.left = 0;
-            document.getElementById('menu' + this.index).style.borderTopLeftRadius = 0;
-            document.getElementById('menu' + this.index).style.borderTopRightRadius = 0;
+            document.getElementById('containerDocument' + this.index).style.top = null;
+            document.getElementById('containerDocument' + this.index).style.left = null;
+            document.getElementById('containerDocument' + this.index).style.width = null;
+            document.getElementById('containerDocument' + this.index).style.height = null;
+            document.getElementById('containerDocument' + this.index).classList.toggle('maximizeAnimation');
+            //document.getElementById('containerDocument' + this.index).style.width = '100%';
+            //document.getElementById('containerDocument' + this.index).style.height = '100%';
+            //this.oldTop = document.getElementById('containerDocument' + this.index).style.top;
+            //this.oldLeft = document.getElementById('containerDocument' + this.index).style.left;
+            //document.getElementById('containerDocument' + this.index).style.top = 0;
+            //document.getElementById('containerDocument' + this.index).style.left = 0;
+            document.getElementById('menuDocument' + this.index).style.borderTopLeftRadius = 0;
+            document.getElementById('menuDocument' + this.index).style.borderTopRightRadius = 0;
         }
         this.maximized = !this.maximized;
     }
@@ -296,12 +317,11 @@ function newDocument(num) {
             error.className = 'popup';
             error.style.width = '200px';
             error.style.height = '100px';
-            error.style.backgroundColor = 'rgb(200,200,200)';
-            error.style.border = '1px solid black';
+            error.style.backgroundColor = 'rgb(240,240,240)';
             error.style.borderRadius = '5px';
-            error.style.top = '50%';
-            error.style.left = '50%';
-            error.style.transform = 'translate(-50%,-50%)';
+            error.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+            error.style.top = '40%';
+            error.style.left = '40%';
             error.style.zIndex = 5;
             document.getElementById('containerDesktop').appendChild(error);
 

@@ -45,7 +45,7 @@ function setInactiveIcons(objName){
 
 function createMenu(objName, container, menu, menu1, menuEntry1, menu2, menuEntry2, menu3, menuEntry3, menu4, textField){
     
-    menu.id = "menu" + this.index;
+    menu.id = "menu" + objName.charAt(0).toUpperCase() + objName.slice(1) + this.index;
     menu.className = 'menu';
     container.appendChild(menu);
 
@@ -193,6 +193,7 @@ function createContextMenu(e, objName, menu, num){
     menu.style.width = '120px';
     menu.style.height = '57px';
     menu.style.backgroundColor = 'rgb(240, 240, 240)';
+    menu.style.color = 'rgb(75, 89, 94)';
     menu.style.padding = '5px';
     menu.style.borderRadius = '5px';
     menu.style.zIndex = 3;
@@ -673,13 +674,13 @@ function createIcon(objName, num){
         div.appendChild(terminalIconDesktop.cloneNode(true));
     }
     if(objName == 'fishy'){
-        div.appendChild(fishyIconDesktop);
+        div.appendChild(fishyIconDesktop.cloneNode(true));
     }
     if(objName == 'browser'){
-        div.appendChild(browserIconDesktop);
+        div.appendChild(browserIconDesktop.cloneNode(true));
     }
     if(objName == 'document'){
-        div.appendChild(documentIconDesktop);
+        div.appendChild(documentIconDesktop.cloneNode(true));
     }
 
     let icondiv = document.createElement('div');
@@ -784,8 +785,7 @@ function createIcon(objName, num){
     }
 }
 
-function preloadImages()
-{
+function preloadImages(){
     openIcon.src='assets/img/openIcon.png';
     openIcon.style.transform = 'scale(0.5)';
 
@@ -848,5 +848,358 @@ function removeRename(){
         target.contentEditable = false;
         target.style.color = 'white';
         target.style.removeProperty('background-color');
+    }
+}
+
+function enterEvent(e){
+    if(e.code == 'Enter'){
+        document.getElementById('outer').classList.add('popupProgram');
+        document.getElementById('outer').style.visibility = 'visible';
+        let subText = document.getElementById('subText')
+        let sos = subText.cloneNode(true);
+        document.body.appendChild(sos);
+        subText.addEventListener('animationend', ()=>{
+            subText.remove();
+            sos.textContent = '...ok I guess?'
+            sos.style.left = '85.5%';
+        });
+        subText.className = 'antiPopupProgram';
+        setTimeout(()=>{
+            sos.addEventListener('animationend', ()=>{
+                sos.remove();
+            })
+            sos.className = 'antiPopupProgram'}, 1000);
+        initializeIcons();
+        document.removeEventListener('keydown', enterEvent);
+    }
+}
+
+function initializeDesktop(){
+    let scraccioText = document.createElement('div');
+    scraccioText.className = 'popupProgram';
+    scraccioText.textContent = 'Activate scracciOS';
+    scraccioText.style.color = 'rgba(255, 255, 255, 0.3)';
+    scraccioText.style.fontSize = '30px';
+    scraccioText.style.fontFamily = 'Microsoft PhagsPa'
+    scraccioText.style.position = 'absolute';
+    scraccioText.style.top = '80%';
+    scraccioText.style.left = '80.7%';
+    scraccioText.style.transform = 'translate(-50%, -50%)';
+    scraccioText.style.userSelect = 'none';
+    document.body.appendChild(scraccioText);
+    
+    setTimeout(()=>{
+        let subText = scraccioText.cloneNode(true);
+        subText.id = 'subText';
+        subText.textContent = 'Or press \'Enter\' for a short trial';
+        document.addEventListener('keydown', enterEvent);
+        subText.style.fontSize = '30px';
+        subText.style.fontSize = '30px';
+        subText.style.top = '85%';
+        subText.style.left = '70%';
+        subText.style.transform = 'translate(-50%, 50%)';
+        document.body.appendChild(subText);
+    }, 500);
+    
+}
+
+function initializeIcons(){
+
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        setTimeout(() => {
+            removeActiveDivs();
+            removeRename();
+
+            let menu = document.createElement("div");
+            document.body.appendChild(menu);
+
+            var x = e.clientX;
+            var y = e.clientY;
+
+            menu.id = 'contextmenu';
+            menu.style.position = "fixed";
+            menu.style.left = x + 10 + "px";
+            if (y >= window.innerHeight - 50) {
+                menu.style.top = (y - 20) + "px";
+            }
+            else {
+                menu.style.top = y + "px";
+            }
+            menu.style.width = '90px';
+            menu.style.height = '22px';
+            menu.style.backgroundColor = 'rgb(240, 240, 240)';
+            menu.style.padding = '5px';
+            menu.style.borderRadius = '5px';
+            menu.style.zIndex = 3;
+            menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+            menu.className = 'popup';
+
+            let firstText = document.createElement("div");
+            firstText.id = 'firstText';
+            firstText.onclick = (e) => {
+                e.stopPropagation();
+                let blocco = document.createElement('div');
+                blocco.style.userSelect = 'none';
+                blocco.style.width = '150px';
+                blocco.style.height = '115px';
+                blocco.id = 'blocco';
+                blocco.style.position = 'absolute';
+                blocco.style.padding = '5px';
+                blocco.style.boxSizing = 'border-box';
+                blocco.style.top = '-5px';
+                blocco.style.left = '96px'
+                //blocco.style.border = '1px solid black';
+                blocco.style.backgroundColor = 'rgb(240, 240, 240)';
+                blocco.style.color = 'rgb(75, 89, 94)';
+                blocco.style.fontSize = '13px';
+                blocco.style.borderRadius = '5px';
+                blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
+                blocco.className = 'popup';
+                firstText.appendChild(blocco);
+
+                let blocco1 = document.createElement('div');
+                blocco1.id = 'blocco1';
+                blocco1.style.position = 'relative';
+                blocco1.style.top = 0;
+                blocco1.style.left = 0;
+                blocco1.style.marginTop = '2px';
+                blocco1.style.marginBottom = '2px';
+                blocco1.style.borderRadius = '5px';
+                blocco1.appendChild(documentIcon);
+                blocco1.innerHTML += 'Documento';
+                //blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
+                blocco1.style.display = 'flex';
+                blocco1.style.alignItems = 'center';
+                //blocco1.textContent = 'Documento';
+                //blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
+                blocco1.onclick = () => {
+                    menu.classList.remove('popup');
+                    menu.classList.add('antiPopup');
+                    menu.addEventListener('transitionEnd', () => {
+                        menu.remove();
+                    })
+                    if (fileArray.length > 0) {
+                        newDocument(fileArray[fileArray.length - 1] + 1);
+                        fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
+                    }
+                    else {
+                        newDocument(documentCount);
+                    }
+
+                }
+                blocco.appendChild(blocco1);
+
+                let blocco2 = document.createElement('div');
+                blocco2.id = 'blocco2';
+                blocco2.style.position = 'relative';
+                blocco2.style.top = 0;
+                blocco2.style.left = 0;
+                blocco2.style.marginTop = '2px';
+                blocco2.style.marginBottom = '2px';
+                blocco2.style.borderRadius = '5px';
+                blocco2.appendChild(terminalIcon);
+                blocco2.innerHTML += 'Terminal';
+                //blocco2.innerHTML += '\xA0' + '<img src="assets/img/terminalIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Terminale';
+                blocco2.style.display = 'flex';
+                blocco2.style.alignItems = 'center';
+                //blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
+                blocco2.onclick = () => {
+                    createIcon('terminal', terminalCount);
+                    terminalCount++;
+                    localStorage.setItem('terminalCount', terminalCount);
+                    menu.classList.remove('popup');
+                    menu.classList.add('antiPopup');
+                    menu.addEventListener('transitionEnd', () => {
+                        menu.remove();
+                    })
+                }
+                blocco.appendChild(blocco2);
+
+                let blocco3 = document.createElement('div');
+                blocco3.id = 'blocco3';
+                blocco3.style.position = 'relative';
+                blocco3.style.top = 0;
+                blocco3.style.left = 0;
+                blocco3.style.marginTop = '2px';
+                blocco3.style.marginBottom = '2px';
+                blocco3.style.borderRadius = '5px';
+                blocco3.appendChild(fishyIcon);
+                blocco3.innerHTML += 'Fishy';
+                //blocco3.innerHTML += '\xA0' + '<img src="assets/img/fishyIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Fishy';
+                blocco3.style.display = 'flex';
+                blocco3.style.alignItems = 'center';
+                //blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
+                blocco3.onclick = () => {
+                    fishyCount++;
+                    createIcon('fishy', fishyCount);
+                    localStorage.setItem('fishyCount', fishyCount);
+                    menu.classList.remove('popup');
+                    menu.classList.add('antiPopup');
+                    menu.addEventListener('transitionEnd', () => {
+                        menu.remove();
+                    })
+                }
+                blocco.appendChild(blocco3);
+
+                let blocco4 = document.createElement('div');
+                blocco4.id = 'blocco3';
+                blocco4.style.position = 'relative';
+                blocco4.style.top = 0;
+                blocco4.style.left = 0;
+                blocco4.style.marginTop = '2px';
+                blocco4.style.marginBottom = '2px';
+                blocco4.style.borderRadius = '5px';
+                blocco4.appendChild(browserIcon);
+                blocco4.innerHTML += 'Browser';
+                blocco4.style.display = 'flex';
+                blocco4.style.alignItems = 'center';
+                //blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
+                blocco4.onclick = () => {
+                    createIcon('browser', browserCount);
+                    browserCount++;
+                    localStorage.setItem('browserCount', browserCount);
+                    menu.classList.remove('popup');
+                    menu.classList.add('antiPopup');
+                    menu.addEventListener('transitionEnd', () => {
+                        menu.remove();
+                    })
+                }
+                blocco.appendChild(blocco4);
+            }
+            firstText.style.position = 'relative';
+            //firstText.innerHTML += '\x20';
+            //firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
+            //firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '<img src="assets/img/newIcon.png" style="transform: scale(0.4);"/>';
+            firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0';
+            firstText.appendChild(newIcon);
+
+            firstText.style.color = 'rgb(75, 89, 94)';
+            firstText.style.fontSize = '14px';
+            firstText.style.fontFamily = 'Sans-Serif';
+            firstText.style.fontWeight = '700';
+            firstText.style.display = 'flex';
+            firstText.style.alignItems = 'center';
+            firstText.style.borderRadius = '5px';
+            firstText.style.height = '22px';
+            //firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
+            firstText.style.cursor = 'default';
+            menu.appendChild(firstText);
+
+            if (copied) {
+                menu.style.height = '56px';
+                let secondText = document.createElement("div");
+                secondText.id = 'secondText';
+                secondText.onclick = () => {
+                    let c;
+                    if (clipboard == 'terminal') {
+                        c = terminalCount;
+                        createIcon(clipboard, c);
+                        terminalCount++;
+                    }
+                    if (clipboard == 'fishy') {
+                        c = fishyCount;
+                        createIcon(clipboard, c);
+                        fishyCount++;
+                    }
+                    if (clipboard == 'browser') {
+                        c = browserCount;
+                        createIcon(clipboard, c);
+                        browserCount++;
+                    }
+                    if (clipboard == 'document') {
+                        localStorage.setItem('document' + (documentCount), localStorage.getItem('document' + ind));
+                        if (fileArray.length > 0) {
+                            newDocument(fileArray[fileArray.length - 1] + 1);
+                            fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
+                            localStorage.setItem('document' + (fileArray[fileArray.length - 1] + 1).toString(), localStorage.getItem('document' + ind));
+                        }
+                        else {
+                            newDocument(documentCount);
+                            localStorage.setItem('document' + documentCount.toString(), localStorage.getItem('document' + ind));
+                        }
+                    }
+
+                    clipboard = undefined;
+                    copied = false;
+                }
+                secondText.style.position = 'relative';
+                secondText.appendChild(pasteIcon);
+                secondText.innerHTML += 'Incolla';
+                secondText.style.color = 'rgb(75, 89, 94)';
+                secondText.style.fontSize = '14px';
+                secondText.style.fontFamily = 'Sans-Serif';
+                secondText.style.fontWeight = '700';
+                secondText.style.display = 'flex';
+                secondText.style.alignItems = 'center';
+                secondText.style.marginTop = '2px';
+                secondText.style.marginBottom = '2px';
+                secondText.style.borderRadius = '5px';
+                secondText.style.cursor = 'default';
+                menu.appendChild(secondText);
+            }
+
+        }, 1);
+    });
+
+    document.addEventListener('click', () => {
+        removeRename();
+        if (document.getElementById('contextmenu')) {
+            document.getElementById('contextmenu').classList.add('antiPopup');
+            document.getElementById('contextmenu').classList.remove('popup');
+            document.getElementById('contextmenu').addEventListener('transitionend', () => {
+                document.getElementById('contextmenu').remove();
+            })
+        }
+        if (document.getElementById('error')) {
+            document.getElementById('error').classList.add('antiPopup');
+            document.getElementById('error').classList.remove('popup');
+            document.getElementById('error').addEventListener('transitionend', () => {
+                document.getElementById('error').remove();
+            });
+        }
+    });
+
+    document.getElementById('bottom-bar').className = 'bottom-bar bottom-bar-animate';
+    document.getElementById('bottom-bar').querySelector('div').className = "start-button";
+    let startImage = document.createElement('img');
+    startImage.src = 'assets/img/startButton.png';
+    startImage.style.position = 'absolute';
+    startImage.style.width = '30px';
+    startImage.style.top = '17%';
+    startImage.style.left = '17%';
+    startImage.className = 'popupProgram';
+    document.getElementsByClassName('start-button')[0].appendChild(startImage);
+    for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
+            fileArray.push(parseInt(localStorage.key(i).slice(8)));
+        }
+    }
+    fileArray = fileArray.sort(function (a, b) {return a - b;});
+
+
+    for(let i=0; i<localStorage.length; i++){
+        if(localStorage.key(i) == 'terminalCount'){
+            for(let j=0; j<localStorage.getItem('terminalCount'); j++){
+                createIcon('terminal', j);
+                terminalCount++;
+            }
+        }
+        if(localStorage.key(i) == 'fishyCount'){
+            for(let j=0; j<localStorage.getItem('fishyCount'); j++){
+                createIcon('fishy', j);
+                fishyCount++;
+            }
+        }
+        if(localStorage.key(i) == 'browserCount'){
+            for(let j=0; j<localStorage.getItem('browserCount'); j++){
+                createIcon('browser', j);
+                browserCount++;
+            }
+        }
+    }
+
+    for (let i = 0; i < fileArray.length; i++) {
+        newDocument(fileArray[i]);
     }
 }

@@ -33,35 +33,38 @@ class Browser {
             e.stopPropagation();
             e.preventDefault();
         }
-        containerBrowser.style.width = '80%';
-        containerBrowser.style.height = '80%';
+        containerBrowser.style.width = '50%';
+        containerBrowser.style.height = '55%';
         containerBrowser.style.position = 'absolute';
-        containerBrowser.style.left = '10%';
-        containerBrowser.style.top = '8%';
-        containerBrowser.style.borderTopLeftRadius = '10px';
-        containerBrowser.style.borderTopRightRadius = '10px';
-        containerBrowser.style.borderBottomLeftRadius = '10px';
-        containerBrowser.style.borderBottomRightRadius = '10px';
+        containerBrowser.style.left = '20%';
+        containerBrowser.style.top = '20%';
+        containerBrowser.style.borderRadius = '5px';
         containerBrowser.style.overflow = 'hidden';
         containerBrowser.style.resize = 'both';
 
         let iframe = document.createElement('iframe');
         containerBrowser.appendChild(iframe);
-        iframe.id = 'iframe' + this.index;
+        iframe.id = 'iframeBrowser' + this.index;
         iframe.src = 'https://www.google.com/search?igu=1';
         iframe.frameBorder = 0;
         //iframe.scrolling = 'no';
         iframe.style.position = 'absolute';
-        iframe.style.width = '101%';
+        iframe.style.width = '100%';    
         iframe.style.height = 'calc(100% - 33px)';
         iframe.style.marginTop = '11px';
         iframe.style.marginLeft = '-4px';
         iframe.style.top = '23px';
         iframe.style.visibility = 'hidden';
         iframe.onload = () => {
-            containerBrowser.classList.add('popupProgram');
+            
+            if(!containerBrowser.className.includes('container')){
+                containerBrowser.classList.add('container');
+            }
+            if(!containerBrowser.className.includes('popupProgram')){
+                containerBrowser.classList.add('popupProgram');
+            }
             iframe.style.visibility = 'visible';
-            if(!document.getElementById('menu' + this.index)){
+            if(!document.getElementById('menuBrowser' + this.index)){
                 let menu = document.createElement('div');
                 let menu1 = document.createElement('div');
                 let menuEntry1 = document.createElement('div');
@@ -80,14 +83,6 @@ class Browser {
                 document.getElementById('containerBrowser' + this.index).style.zIndex = 1;
                 this.active = true;
                 document.getElementById('browser' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
-
-                /*let browserBar = document.createElement('div');
-                browserBar.style.position = 'relative';
-                browserBar.style.width = '100%';
-                browserBar.style.height = '30px';
-                browserBar.style.backgroundColor = 'black';
-
-                containerBrowser.appendChild(browserBar);*/
             }
         };
 
@@ -121,24 +116,33 @@ class Browser {
 
     maximize() {
         if (this.maximized) {
-            document.getElementById('containerBrowser' + this.index).style.width = '50%';
-            document.getElementById('containerBrowser' + this.index).style.height = '55%';
-            document.getElementById('containerBrowser' + this.index).style.top = this.oldTop;
-            document.getElementById('containerBrowser' + this.index).style.left = this.oldLeft;
-            document.getElementById('menu' + this.index).style.borderTopLeftRadius = '5px';
-            document.getElementById('menu' + this.index).style.borderTopRightRadius = '5px';
+            document.getElementById(this.id).classList.toggle('maximizeAnimation');
+            document.getElementById(this.id).classList.add('containerMaximize');
+            setTimeout(()=>{document.getElementById(this.id).classList.remove('containerMaximize')}, 210);
+
+            //document.getElementById('containerBrowser' + this.index).style.width = '50%';
+            //document.getElementById('containerBrowser' + this.index).style.height = '55%';
+            //document.getElementById('containerBrowser' + this.index).style.top = this.oldTop;
+            //document.getElementById('containerBrowser' + this.index).style.left = this.oldLeft;
+            document.getElementById('menuBrowser' + this.index).style.borderTopLeftRadius = '5px';
+            document.getElementById('menuBrowser' + this.index).style.borderTopRightRadius = '5px';
             document.getElementById('containerBrowser' + this.index).style.borderBottomLeftRadius = '1%';
             document.getElementById('containerBrowser' + this.index).style.borderBottomLeftRadius = '1%';
         }
         else {
-            document.getElementById('containerBrowser' + this.index).style.width = '100%';
-            document.getElementById('containerBrowser' + this.index).style.height = '100%';
-            this.oldTop = document.getElementById('containerBrowser' + this.index).style.top;
-            this.oldLeft = document.getElementById('containerBrowser' + this.index).style.left;
-            document.getElementById('containerBrowser' + this.index).style.top = 0;
-            document.getElementById('containerBrowser' + this.index).style.left = 0;
-            document.getElementById('menu' + this.index).style.borderTopLeftRadius = 0;
-            document.getElementById('menu' + this.index).style.borderTopRightRadius = 0;
+            document.getElementById(this.id).style.top = null;
+            document.getElementById(this.id).style.left = null;
+            document.getElementById(this.id).style.width = null;
+            document.getElementById(this.id).style.height = null;
+            document.getElementById(this.id).classList.toggle('maximizeAnimation');
+            //document.getElementById('containerBrowser' + this.index).style.width = '100%';
+            //document.getElementById('containerBrowser' + this.index).style.height = '100%';
+            //this.oldTop = document.getElementById('containerBrowser' + this.index).style.top;
+            //this.oldLeft = document.getElementById('containerBrowser' + this.index).style.left;
+            //document.getElementById('containerBrowser' + this.index).style.top = 0;
+            //document.getElementById('containerBrowser' + this.index).style.left = 0;
+            document.getElementById('menuBrowser' + this.index).style.borderTopLeftRadius = 0;
+            document.getElementById('menuBrowser' + this.index).style.borderTopRightRadius = 0;
         }
         this.maximized = !this.maximized;
     }

@@ -31,52 +31,55 @@ class Fishy {
             e.stopPropagation();
             e.preventDefault();
         }
-        containerFishy.style.width = '80%';
-        containerFishy.style.height = '80%';
+        containerFishy.style.width = '50%';
+        containerFishy.style.height = '55%';
         containerFishy.style.position = 'absolute';
-        containerFishy.style.left = '10%';
-        containerFishy.style.top = '10%';
-        containerFishy.style.borderTopLeftRadius = '10px';
-        containerFishy.style.borderTopRightRadius = '10px';
-        containerFishy.style.borderBottomLeftRadius = '10px';
-        containerFishy.style.borderBottomRightRadius = '10px';
+        containerFishy.style.left = '20%';
+        containerFishy.style.top = '20%';
+        containerFishy.style.borderRadius = '5px';
         containerFishy.style.overflow = 'hidden';
 
         let iframe = document.createElement('iframe');
-        iframe.id = 'iframe' + this.index;
+        containerFishy.appendChild(iframe);
+        iframe.id = 'iframeFishy' + this.index;
         iframe.src = '../../fishy/index.html';
         iframe.frameBorder = 0;
         iframe.scrolling = 'no';
         iframe.style.position = 'absolute';
-        iframe.width = '101%';
-        iframe.height = '96.5%';
-        iframe.style.marginTop = '11px';
-        iframe.style.marginLeft = '-4px';
-        iframe.style.left = '50%';
-        iframe.style.top = '50%';
-        iframe.style.transform = 'translate(-50%,-50%)';
+        iframe.style.width = '104%';
+        iframe.style.height = 'calc(100% - 26px)';
+        //iframe.style.marginTop = '0';
+        //iframe.style.marginLeft = '0';
+        iframe.style.top = '27px';
+        iframe.style.left = '-8px';
+        iframe.style.visibility = 'hidden';
+        document.body.style.cursor = 'wait';
         iframe.onload = () => {
-            containerFishy.className = 'popupProgram';
-            let menu = document.createElement('div');
-            let menu1 = document.createElement('div');
-            let menuEntry1 = document.createElement('div');
-            let menu2 = document.createElement('div');
-            let menuEntry2 = document.createElement('div');
-            let menu3 = document.createElement('div');
-            let menuEntry3 = document.createElement('div');
-            let menu4 = document.createElement('div');
-            createMenu.call(this, 'fishy', containerFishy, menu, menu1, menuEntry1, menu2, menuEntry2, menu3, menuEntry3, menu4, null);
-            containerFishy.style.boxShadow = '5px 5px 10px rgb(14, 14, 14)';
+            document.body.style.cursor = 'default';
+            containerFishy.className = 'container';
+            containerFishy.classList.add('popupProgram');
+            iframe.style.visibility = 'visible';
+            if(!document.getElementById('menuFishy' + this.index)){
+                let menu = document.createElement('div');
+                let menu1 = document.createElement('div');
+                let menuEntry1 = document.createElement('div');
+                let menu2 = document.createElement('div');
+                let menuEntry2 = document.createElement('div');
+                let menu3 = document.createElement('div');
+                let menuEntry3 = document.createElement('div');
+                let menu4 = document.createElement('div');
+                createMenu.call(this, 'fishy', containerFishy, menu, menu1, menuEntry1, menu2, menuEntry2, menu3, menuEntry3, menu4, null);
+                containerFishy.style.boxShadow = '5px 5px 10px rgb(14, 14, 14)';
 
-            menu.addEventListener('mousedown', (e) => {this.start_move_shell(e)}, true);
-            document.addEventListener('mouseup', (e) => {this.stop_move_shell()}, true);
-            document.addEventListener('mousemove', (e) => {this.move_shell(e)}, true);
-            setInactiveIcons('fishy');
-            document.getElementById('containerFishy' + this.index).style.zIndex = 1;
-            this.active = true;
-            document.getElementById('fishy' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
+                menu.addEventListener('mousedown', (e) => {this.start_move_shell(e)}, true);
+                document.addEventListener('mouseup', (e) => {this.stop_move_shell()}, true);
+                document.addEventListener('mousemove', (e) => {this.move_shell(e)}, true);
+                setInactiveIcons('fishy');
+                document.getElementById('containerFishy' + this.index).style.zIndex = 1;
+                this.active = true;
+                document.getElementById('fishy' + this.index).style.backgroundColor = 'rgb(5, 0, 80)';
+            }
         };
-        containerFishy.appendChild(iframe);
         document.body.appendChild(containerFishy);
     }
 
@@ -101,6 +104,7 @@ class Fishy {
             document.getElementById(this.id).classList.add('antiPopupProgram');
         }
     }
+
 
     cross() {
         document.getElementById('containerFishy' + this.index).addEventListener('animationend', ()=>{

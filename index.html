@@ -13,8 +13,8 @@
 		body {
 			color: white;
 			font-family: "Ubuntu";
-			background: rgb(64, 219, 226);
 			background: linear-gradient(25deg, rgb(50, 174, 211) 0%, rgb(31, 1, 92) 100%);
+			background-color: black;
 			overflow: hidden;
 			margin: 0;
 			padding: 0;
@@ -31,11 +31,27 @@
 			box-shadow: 3px 3px 10px rgb(14, 14, 14);
 			border-top-right-radius: 5px;
 			border-top-left-radius: 5px;
-			border-bottom-right-radius: 1%;
-			border-bottom-left-radius: 1%;
+			border-bottom-right-radius: 5px;
+			border-bottom-left-radius: 5px;
+
 		}
 
-		.transitions{
+		.containerMaximize {
+			width: 50%;
+			height: 55%;
+			position: absolute;
+			left: 20%;
+			top: 20%;
+			box-shadow: 3px 3px 10px rgb(14, 14, 14);
+			border-top-right-radius: 5px;
+			border-top-left-radius: 5px;
+			border-bottom-right-radius: 5px;
+			border-bottom-left-radius: 5px;
+			transition: all 0.2s;
+			transition-timing-function: ease-in-out;
+		}
+
+		.transitions {
 			transition: all 0.2s;
 		}
 
@@ -184,6 +200,7 @@
 			margin-top: 10px;
 			cursor: pointer;
 			user-select: none;
+			z-index: 1;
 		}
 
 		.terminal-icon>img {
@@ -259,6 +276,10 @@
 			bottom: 0;
 			z-index: 2;
 			user-select: none;
+		}
+
+		.bottom-bar-animate {
+			animation: slideIn 0.15s ease-out forwards 1;
 		}
 
 		.bottom-bar-element {
@@ -358,72 +379,86 @@
 			background: black;
 		}
 
-		@keyframes popup{
-			0%{
+		@keyframes slideIn {
+			0% {
+				bottom: -50px;
+			}
+
+			100% {
+				bottom: 0;
+			}
+		}
+
+		@keyframes popup {
+			0% {
 				opacity: 0;
 				transform: scale(0.5);
 			}
-			70%{
+
+			70% {
 				opacity: 100%;
 				transform: scale(1.1);
 			}
-			100%{
+
+			100% {
 				opacity: 100%;
 				transform: scale(1);
 			}
 		}
 
-		@keyframes antiPopup{
-			0%{
+		@keyframes antiPopup {
+			0% {
 				opacity: 100%;
 				transform: scale(1);
 			}
 
-			100%{
+			100% {
 				opacity: 0;
 				transform: scale(0.5);
 			}
 		}
 
-		@keyframes popupProgram{
-			0%{
+		@keyframes popupProgram {
+			0% {
 				opacity: 0;
 				transform: scale(0.8);
 			}
-			100%{
+
+			100% {
 				opacity: 100%;
 				transform: scale(1);
 			}
 		}
 
-		@keyframes antiPopupProgram{
-			0%{
+		@keyframes antiPopupProgram {
+			0% {
 				opacity: 100%;
 				transform: scale(1);
 			}
-			100%{
+
+			100% {
 				opacity: 0;
 				transform: scale(0.8);
 			}
 		}
 
-		.popup{
+		.popup {
 			animation: popup 0.1s linear forwards 1;
 		}
 
-		.antiPopup{
+		.antiPopup {
 			animation: antiPopup 0.1s linear forwards 1;
 		}
 
-		.popupProgram{
+		.popupProgram {
 			animation: popupProgram 0.08s linear forwards 1;
 		}
 
-		.antiPopupProgram{
+		.antiPopupProgram {
 			animation: antiPopupProgram 0.08s linear forwards 1;
 		}
 
-		.maximizeAnimation{
+		.maximizeAnimation {
 			width: 100%;
 			height: 100%;
 			left: 0;
@@ -431,10 +466,21 @@
 			transition: all 0.2s;
 		}
 
+		#outer {
+			position: absolute;
+			top: 6%;
+			left: 30%;
+			visibility: hidden;
+		}
 	</style>
 </head>
 
 <body>
+
+	<div id="outer">
+		<img src="assets/img/wallpaper.png">
+	</div>
+
 	<div id="containerDesktop">
 		<div id="column1"></div>
 		<div id="column2"></div>
@@ -450,12 +496,8 @@
 
 
 
-	<div class="bottom-bar" oncontextmenu="event.preventDefault();event.stopPropagation();">
-		<div class="start-button">
-			<div id="flagtopleft"></div>
-			<div id="flagtopright"></div>
-			<div id="flagbottomleft"></div>
-			<div id="flagbottomright"></div>
+	<div id="bottom-bar" oncontextmenu="event.preventDefault();event.stopPropagation();">
+		<div>
 		</div>
 	</div>
 
@@ -504,296 +546,14 @@
 		let fishyIconDesktop = new Image();
 		let documentIconDesktop = new Image();
 		let browserIconDesktop = new Image();
-		
+
 		preloadImages();
 
-		for (let i = 0; i < localStorage.length; i++) {
-			if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
-				fileArray.push(parseInt(localStorage.key(i).slice(8)));
-			}
-		}
-		fileArray = fileArray.sort(function (a, b) {return a - b;});
+		setTimeout(() => {initializeDesktop()}, 500);
 
-
-		for(let i=0; i<localStorage.length; i++){
-			if(localStorage.key(i) == 'terminalCount'){
-				for(let j=0; j<localStorage.getItem('terminalCount'); j++){
-					createIcon('terminal', j);
-					terminalCount++;
-				}
-			}
-			if(localStorage.key(i) == 'fishyCount'){
-				for(let j=0; j<localStorage.getItem('fishyCount'); j++){
-					createIcon('fishy', j);
-					fishyCount++;
-				}
-			}
-			if(localStorage.key(i) == 'browserCount'){
-				for(let j=0; j<localStorage.getItem('browserCount'); j++){
-					createIcon('browser', j);
-					browserCount++;
-				}
-			}
-		}
-
-		for (let i = 0; i < fileArray.length; i++) {
-			newDocument(fileArray[i]);
-		}
-
-		document.addEventListener('contextmenu', (e) => {
+		document.addEventListener('contextmenu', (e)=>{
 			e.preventDefault();
-			setTimeout(() => {
-				removeActiveDivs();
-				removeRename();
-
-				let menu = document.createElement("div");
-				document.body.appendChild(menu);
-
-				var x = e.clientX;
-				var y = e.clientY;
-
-				menu.id = 'contextmenu';
-				menu.style.position = "fixed";
-				menu.style.left = x + 10 + "px";
-				if (y >= window.innerHeight - 50) {
-					menu.style.top = (y - 20) + "px";
-				}
-				else {
-					menu.style.top = y + "px";
-				}
-				menu.style.width = '90px';
-				menu.style.height = '22px';
-				menu.style.backgroundColor = 'rgb(240, 240, 240)';
-				menu.style.padding = '5px';
-				menu.style.borderRadius = '5px';
-				menu.style.zIndex = 3;
-				menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
-				menu.className = 'popup';
-
-				let firstText = document.createElement("div");
-				firstText.id = 'firstText';
-				firstText.onclick = (e) => {
-					e.stopPropagation();
-					let blocco = document.createElement('div');
-					blocco.style.userSelect = 'none';
-					blocco.style.width = '150px';
-					blocco.style.height = '115px';
-					blocco.id = 'blocco';
-					blocco.style.position = 'absolute';
-					blocco.style.padding = '5px';
-					blocco.style.boxSizing = 'border-box';
-					blocco.style.top = '-5px';
-					blocco.style.left = '96px'
-					//blocco.style.border = '1px solid black';
-					blocco.style.backgroundColor = 'rgb(240, 240, 240)';
-					blocco.style.color = 'rgb(75, 89, 94)';
-					blocco.style.fontSize = '13px';
-					blocco.style.borderRadius = '5px';
-					blocco.style.boxShadow = '2px 2px 5px rgb(14, 14, 14)';
-					blocco.className = 'popup';
-					firstText.appendChild(blocco);
-
-					let blocco1 = document.createElement('div');
-					blocco1.id = 'blocco1';
-					blocco1.style.position = 'relative';
-					blocco1.style.top = 0;
-					blocco1.style.left = 0;
-					blocco1.style.marginTop = '2px';
-					blocco1.style.marginBottom = '2px';
-					blocco1.style.borderRadius = '5px';
-					blocco1.appendChild(documentIcon);
-					blocco1.innerHTML += 'Documento';
-					//blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
-					blocco1.style.display = 'flex';
-					blocco1.style.alignItems = 'center';
-					//blocco1.textContent = 'Documento';
-					//blocco1.style.borderBottom = '1px solid rgb(50, 50, 50)';
-					blocco1.onclick = () => {
-						menu.classList.remove('popup');
-						menu.classList.add('antiPopup');
-						menu.addEventListener('transitionEnd', ()=>{
-							menu.remove();
-						})
-						if (fileArray.length > 0) {
-							newDocument(fileArray[fileArray.length - 1] + 1);
-							fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
-						}
-						else {
-							newDocument(documentCount);
-						}
-
-					}
-					blocco.appendChild(blocco1);
-
-					let blocco2 = document.createElement('div');
-					blocco2.id = 'blocco2';
-					blocco2.style.position = 'relative';
-					blocco2.style.top = 0;
-					blocco2.style.left = 0;
-					blocco2.style.marginTop = '2px';
-					blocco2.style.marginBottom = '2px';
-					blocco2.style.borderRadius = '5px';
-					blocco2.appendChild(terminalIcon);
-					blocco2.innerHTML += 'Terminal';
-					//blocco2.innerHTML += '\xA0' + '<img src="assets/img/terminalIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Terminale';
-					blocco2.style.display = 'flex';
-					blocco2.style.alignItems = 'center';
-					//blocco2.textContent = 'Terminale' + '\xA0' + '\xA0' + '\xA0';
-					blocco2.onclick = () => {
-						createIcon('terminal', terminalCount);
-						terminalCount++;
-						localStorage.setItem('terminalCount', terminalCount);
-						menu.classList.remove('popup');
-						menu.classList.add('antiPopup');
-						menu.addEventListener('transitionEnd', ()=>{
-							menu.remove();
-						})
-					}
-					blocco.appendChild(blocco2);
-
-					let blocco3 = document.createElement('div');
-					blocco3.id = 'blocco3';
-					blocco3.style.position = 'relative';
-					blocco3.style.top = 0;
-					blocco3.style.left = 0;
-					blocco3.style.marginTop = '2px';
-					blocco3.style.marginBottom = '2px';
-					blocco3.style.borderRadius = '5px';
-					blocco3.appendChild(fishyIcon);
-					blocco3.innerHTML += 'Fishy';
-					//blocco3.innerHTML += '\xA0' + '<img src="assets/img/fishyIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Fishy';
-					blocco3.style.display = 'flex';
-					blocco3.style.alignItems = 'center';
-					//blocco3.textContent = 'Fishy' + '\xA0' + '\xA0' + '\xA0';
-					blocco3.onclick = () => {
-						fishyCount++;
-						createIcon('fishy', fishyCount);
-						localStorage.setItem('fishyCount', fishyCount);
-						menu.classList.remove('popup');
-						menu.classList.add('antiPopup');
-						menu.addEventListener('transitionEnd', ()=>{
-							menu.remove();
-						})
-					}
-					blocco.appendChild(blocco3);
-
-					let blocco4 = document.createElement('div');
-					blocco4.id = 'blocco3';
-					blocco4.style.position = 'relative';
-					blocco4.style.top = 0;
-					blocco4.style.left = 0;
-					blocco4.style.marginTop = '2px';
-					blocco4.style.marginBottom = '2px';
-					blocco4.style.borderRadius = '5px';
-					blocco4.appendChild(browserIcon);
-					blocco4.innerHTML += 'Browser';
-					blocco4.style.display = 'flex';
-					blocco4.style.alignItems = 'center';
-					//blocco4.textContent = 'Browser' + '\xA0' + '\xA0' + '\xA0';
-					blocco4.onclick = () => {
-						createIcon('browser', browserCount);
-						browserCount++;
-						localStorage.setItem('browserCount', browserCount);
-						menu.classList.remove('popup');
-						menu.classList.add('antiPopup');
-						menu.addEventListener('transitionEnd', ()=>{
-							menu.remove();
-						})
-					}
-					blocco.appendChild(blocco4);
-				}
-				firstText.style.position = 'relative';
-				//firstText.innerHTML += '\x20';
-				//firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
-				//firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '<img src="assets/img/newIcon.png" style="transform: scale(0.4);"/>';
-				firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0';
-				firstText.appendChild(newIcon);
-				
-				firstText.style.color = 'rgb(75, 89, 94)';
-				firstText.style.fontSize = '14px';
-				firstText.style.fontFamily = 'Sans-Serif';
-				firstText.style.fontWeight = '700';
-				firstText.style.display = 'flex';
-				firstText.style.alignItems = 'center';
-				firstText.style.borderRadius = '5px';
-				firstText.style.height = '22px';
-				//firstText.style.borderBottom = '1px solid rgb(50, 50, 50)';
-				firstText.style.cursor = 'default';
-				menu.appendChild(firstText);
-
-				if (copied) {
-					menu.style.height = '56px';
-					let secondText = document.createElement("div");
-					secondText.id = 'secondText';
-					secondText.onclick = () => {
-						let c;
-						if(clipboard == 'terminal'){
-							c = terminalCount;
-							createIcon(clipboard, c);
-							terminalCount++;
-						}
-						if(clipboard == 'fishy'){
-							c = fishyCount;
-							createIcon(clipboard, c);
-							fishyCount++;
-						}
-						if(clipboard == 'browser'){
-							c = browserCount;
-							createIcon(clipboard, c);
-							browserCount++;
-						}
-						if(clipboard == 'document'){
-							localStorage.setItem('document' + (documentCount), localStorage.getItem('document'+ind));
-							if (fileArray.length > 0) {
-								newDocument(fileArray[fileArray.length - 1] + 1);
-								fileArray[fileArray.length] = fileArray[fileArray.length - 1] + 1;
-								localStorage.setItem( 'document' + (fileArray[fileArray.length - 1] + 1).toString(), localStorage.getItem('document' + ind) );
-							}
-							else {
-								newDocument(documentCount);
-								localStorage.setItem('document' + documentCount.toString(), localStorage.getItem('document' + ind));
-							}
-						}
-
-						clipboard = undefined;
-						copied = false;
-					}
-					secondText.style.position = 'relative';
-					secondText.appendChild(pasteIcon);
-					secondText.innerHTML += 'Incolla';
-					secondText.style.color = 'rgb(75, 89, 94)';
-					secondText.style.fontSize = '14px';
-					secondText.style.fontFamily = 'Sans-Serif';
-					secondText.style.fontWeight = '700';
-					secondText.style.display = 'flex';
-					secondText.style.alignItems = 'center';
-					secondText.style.marginTop = '2px';
-					secondText.style.marginBottom = '2px';
-					secondText.style.borderRadius = '5px';
-					secondText.style.cursor = 'default';
-					menu.appendChild(secondText);
-				}
-
-			}, 1);
-		});
-
-		document.addEventListener('click', () => {
-			removeRename();
-			if (document.getElementById('contextmenu')) {
-				document.getElementById('contextmenu').classList.add('antiPopup');
-				document.getElementById('contextmenu').classList.remove('popup');
-				document.getElementById('contextmenu').addEventListener('transitionend', ()=>{
-					document.getElementById('contextmenu').remove();
-				})
-			}
-			if (document.getElementById('error')) {
-				document.getElementById('error').classList.add('antiPopup');
-				document.getElementById('error').classList.remove('popup');
-				document.getElementById('error').addEventListener('transitionend', ()=>{
-					document.getElementById('error').remove();
-				});
-			}
-		});
+		})
 
 	</script>
 </body>
