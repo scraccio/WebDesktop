@@ -10,6 +10,9 @@ function removeActiveDivs(){
     if (document.getElementById('contextmenu')) {
         document.getElementById('contextmenu').remove();
     }
+    if (document.getElementById('startMenuContainer')) {
+        document.getElementById('startMenuContainer').remove();
+    }
 }
 
 function setInactiveIcons(objName){
@@ -196,7 +199,7 @@ function createContextMenu(e, objName, menu, num){
     menu.style.color = 'rgb(75, 89, 94)';
     menu.style.padding = '5px';
     menu.style.borderRadius = '5px';
-    menu.style.zIndex = 3;
+    menu.style.zIndex = 5;
     menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
     menu.className = 'popup';
 
@@ -355,7 +358,7 @@ function createContextMenu(e, objName, menu, num){
                         menu.style.height = '42px';
                         menu.style.backgroundColor = 'rgb(100, 100, 100)';
                         menu.style.boxSizing = 'border-box';
-                        menu.style.zIndex = 3;
+                        menu.style.zIndex = 5;
                         menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
                 
                         let firstText = document.createElement("div");
@@ -861,7 +864,7 @@ function enterEvent(e){
         subText.addEventListener('animationend', ()=>{
             subText.remove();
             sos.textContent = '...ok I guess?'
-            sos.style.left = '85.5%';
+            sos.style.right = '10px';
         });
         subText.className = 'antiPopupProgram';
         setTimeout(()=>{
@@ -883,7 +886,7 @@ function initializeDesktop(){
     scraccioText.style.fontFamily = 'Microsoft PhagsPa'
     scraccioText.style.position = 'absolute';
     scraccioText.style.top = '80%';
-    scraccioText.style.left = '80.7%';
+    scraccioText.style.right = '10px';
     scraccioText.style.transform = 'translate(-50%, -50%)';
     scraccioText.style.userSelect = 'none';
     document.body.appendChild(scraccioText);
@@ -896,7 +899,7 @@ function initializeDesktop(){
         subText.style.fontSize = '30px';
         subText.style.fontSize = '30px';
         subText.style.top = '85%';
-        subText.style.left = '70%';
+        subText.style.right = '10px';
         subText.style.transform = 'translate(-50%, 50%)';
         document.body.appendChild(subText);
     }, 500);
@@ -931,7 +934,7 @@ function initializeIcons(){
             menu.style.backgroundColor = 'rgb(240, 240, 240)';
             menu.style.padding = '5px';
             menu.style.borderRadius = '5px';
-            menu.style.zIndex = 3;
+            menu.style.zIndex = 5;
             menu.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
             menu.className = 'popup';
 
@@ -1158,18 +1161,94 @@ function initializeIcons(){
                 document.getElementById('error').remove();
             });
         }
+        if (document.getElementById('startMenuContainer')) {
+            document.getElementById('startMenuContainer').classList.add('startMenuAntiPopup');
+            document.getElementById('startMenuContainer').classList.remove('startMenuPopup');
+            document.getElementById('startMenuContainer').addEventListener('animationend', () => {
+                document.getElementById('startMenuContainer').remove();
+            })
+        }
     });
 
     document.getElementById('bottom-bar').className = 'bottom-bar bottom-bar-animate';
     document.getElementById('bottom-bar').querySelector('div').className = "start-button";
     let startImage = document.createElement('img');
     startImage.src = 'assets/img/startButton.png';
+    startImage.setAttribute('draggable', false);
     startImage.style.position = 'absolute';
     startImage.style.width = '30px';
     startImage.style.top = '17%';
     startImage.style.left = '17%';
     startImage.className = 'popupProgram';
     document.getElementsByClassName('start-button')[0].appendChild(startImage);
+    document.getElementsByClassName('start-button')[0].onclick = (e)=>{
+        e.stopPropagation();
+        if(document.getElementById('startMenuContainer')){
+            document.getElementById('startMenuContainer').remove();
+        }
+        let startMenuContainer = document.createElement('div');
+        startMenuContainer.id = 'startMenuContainer';
+        startMenuContainer.onclick = (e)=>{
+            e.stopPropagation();
+        }
+        startMenuContainer.className = 'startMenuPopup';
+        startMenuContainer.style.zIndex = 2;
+        startMenuContainer.style.position = 'absolute';
+        startMenuContainer.style.left = '0px';
+        startMenuContainer.style.bottom = '50px';
+        startMenuContainer.style.width = '300px';
+        startMenuContainer.style.height = '550px';
+        startMenuContainer.style.backgroundColor = 'rgb(240, 240, 240)';
+        startMenuContainer.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+        startMenuContainer.style.borderRadius = '5px';
+        document.body.appendChild(startMenuContainer);
+
+        let topContainer = document.createElement('div');
+        topContainer.id = 'topContainer';
+        topContainer.textContent = 'scracciOS';
+        topContainer.style.fontSize = '20px';
+        topContainer.style.color = 'black';
+        topContainer.style.position = 'absolute';
+        topContainer.style.left = '50%';
+        topContainer.style.top = '15%';
+        topContainer.style.transform = 'translateX(-50%)';
+        topContainer.style.display = 'flex';
+        startMenuContainer.appendChild(topContainer);
+
+        let startMenuLogo = document.createElement('img');
+        startMenuLogo.id = 'startMenuLogo';
+        startMenuLogo.src = 'assets/img/wallpaperOpacity100.png';
+        startMenuLogo.style.position = 'absolute';
+        startMenuLogo.style.left = '50%';
+        startMenuLogo.style.top = '5%';
+        startMenuLogo.style.transform = 'translateX(-50%)';
+        startMenuLogo.style.width = '50px';
+        startMenuLogo.style.height = '50px';
+        startMenuLogo.style.display = 'flex';
+        startMenuContainer.appendChild(startMenuLogo);
+
+        let appContainer = document.createElement('div');
+        appContainer.id = 'appContainer';
+        appContainer.style.position = 'absolute';
+        appContainer.style.left = '50%';
+        appContainer.style.top = '45%';
+        appContainer.style.transform = 'translate(-50%,-50%)';
+        appContainer.style.width = '240px';
+        appContainer.style.height = '240px';
+        appContainer.style.color = 'black';
+        appContainer.style.fontFamily = 'Microsoft PhagsPa';
+        appContainer.style.textAlign = 'center';
+        appContainer.innerHTML += '<b>README.MD</b>:<br><br>' +
+        'You can create new icons and documents by opening the context menu.<br><br>' +
+        'Documents can be saved and the content will remain in your browser even after reloading the page.<br><br>' +
+        'The Browser doesn\'t quite work properly, due to the CORS policies.<br><br>' + 
+        'The Fishy minigame isn\'t resizable and cannot be maximized due to issues with the iframe';
+        //appContainer.style.display = 'flex';
+        startMenuContainer.appendChild(appContainer);
+
+        
+
+    }
     for (let i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i).includes('document') && !localStorage.key(i).includes('Count')) {
             fileArray.push(parseInt(localStorage.key(i).slice(8)));
