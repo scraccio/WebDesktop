@@ -105,7 +105,7 @@ class Document {
             document.getElementById('containerDocument' + this.index).appendChild(confirm);
 
             let text = document.createElement('div');
-            text.textContent = 'Vuoi salvare?';
+            text.textContent = 'Do you want to save?';
             text.style.color = 'rgb(75, 89, 94)';
             text.style.position = 'absolute';
             text.style.width = '100px';
@@ -142,7 +142,7 @@ class Document {
             }
 
             let yes = document.createElement('div');
-            yes.textContent = 'Si';
+            yes.textContent = 'Yes';
             yes.style.color = 'rgb(75, 89, 94)';
             yes.style.position = 'absolute';
             yes.style.top = '50%';
@@ -294,10 +294,10 @@ function newDocument(num) {
     let icondiv = document.createElement('div');
     icondiv.className = 'icon-text';
     if(num == 0){
-        icondiv.textContent = 'Documento';
+        icondiv.textContent = 'Document';
     }
     else{
-        icondiv.textContent = 'Documento(' + num + ")";
+        icondiv.textContent = 'Document(' + num + ")";
     }
     div.appendChild(icondiv);
     

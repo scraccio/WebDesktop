@@ -100,7 +100,7 @@ function createMenu(objName, container, menu, menu1, menuEntry1, menu2, menuEntr
     menu4.className = 'menuEntry4';
 
     if(objName == 'terminal'){
-        menu4.textContent = 'scraccio@ubuntu:~';
+        menu4.textContent = 'simone@scracciOS:~';
     }
     if(objName == 'fishy'){
         menu4.textContent = 'Fishy';
@@ -109,7 +109,7 @@ function createMenu(objName, container, menu, menu1, menuEntry1, menu2, menuEntr
         menu4.textContent = 'Browser';
     }
     if(objName == 'document'){
-        menu4.textContent = 'Blocco Note';
+        menu4.textContent = 'Notepad';
     }
     
     menu.appendChild(menu4);
@@ -295,10 +295,10 @@ function createContextMenu(e, objName, menu, num){
     
                     let errorMessage = document.createElement('div');
                     if(num == 0){
-                        errorMessage.textContent = 'Impossibile aprire \'' + 'Documento' + '\':';
+                        errorMessage.textContent = 'Impossibile aprire \'' + 'Document' + '\':';
                     }
                     else{
-                        errorMessage.textContent = 'Impossibile aprire \'' + 'Documento(' + num + ")" + '\':';
+                        errorMessage.textContent = 'Impossibile aprire \'' + 'Document(' + num + ")" + '\':';
                     }
                     errorMessage.innerHTML += '<br>File già aperto';
                     errorMessage.style.color = 'black';
@@ -386,10 +386,10 @@ function createContextMenu(e, objName, menu, num){
     
                             let errorMessage = document.createElement('div');
                             if(num == 0){
-                                errorMessage.textContent = 'Impossibile aprire \'' + 'Documento' + '\':';
+                                errorMessage.textContent = 'Impossibile aprire \'' + 'Document' + '\':';
                             }
                             else{
-                                errorMessage.textContent = 'Impossibile aprire \'' + 'Documento(' + num + ")" + '\':';
+                                errorMessage.textContent = 'Impossibile aprire \'' + 'Document(' + num + ")" + '\':';
                             }
                             errorMessage.innerHTML += '<br>File già aperto';
                             errorMessage.style.color = 'black';
@@ -410,7 +410,7 @@ function createContextMenu(e, objName, menu, num){
                         }
                         firstText.style.position = 'relative';
                         //firstText.innerHTML += '\x20';
-                        firstText.textContent = '\xA0' + 'Apri';
+                        firstText.textContent = '\xA0' + 'Open';
                         firstText.style.color = 'rgb(75, 89, 94)';
                         firstText.style.cursor = 'default';
                         menu.appendChild(firstText);
@@ -427,7 +427,7 @@ function createContextMenu(e, objName, menu, num){
                 
                         }
                         secondText.style.position = 'relative';
-                        secondText.textContent = '\xA0' + 'Chiudi';
+                        secondText.textContent = '\xA0' + 'Close';
                         secondText.style.color = 'rgb(75, 89, 94)';
                         secondText.style.cursor = 'default';
                         menu.appendChild(secondText);
@@ -478,10 +478,9 @@ function createContextMenu(e, objName, menu, num){
                 }
             }
         }
-        firstText.style.position = 'relative';  
+        firstText.style.position = 'relative';  + '\xA0'
         //firstText.innerHTML += '\x20';
-        firstText.innerHTML += '<img src="assets/img/openIcon.png" style="transform: scale(0.5);"/>' + 'Apri';
-        //firstText.textContent = '\xA0' + 'Apri';
+        firstText.innerHTML += '<img src="assets/img/openIcon.png" style="transform: scale(0.5);"/>' + 'Open';
         firstText.style.color = 'rgb(75, 89, 94)';
         firstText.style.fontSize = '14px';
         firstText.style.fontFamily = 'Sans-Serif';
@@ -509,7 +508,7 @@ function createContextMenu(e, objName, menu, num){
             }
         }
         secondText.style.position = 'relative';
-        secondText.innerHTML += '<img src="assets/img/closeIcon.png" style="transform: scale(0.6);"/>' + 'Chiudi';
+        secondText.innerHTML += '<img src="assets/img/closeIcon.png" style="transform: scale(0.6);"/>' + 'Close';
         //secondText.textContent = '\xA0' + 'Chiudi';
         secondText.style.color = 'rgb(75, 89, 94)';
         secondText.style.fontSize = '14px';
@@ -550,7 +549,7 @@ function assignImageToIcon(objName, newDiv, newImg){
 
 function contextMenuIcon(menu, objName, i){
     document.getElementById('contextmenu').style.height = '125px';
-    document.getElementById('secondText').innerHTML = '<img src="assets/img/copyIcon.png" style="transform: scale(0.6);"/>' + 'Copia';
+    document.getElementById('secondText').innerHTML = '<img src="assets/img/copyIcon.png" style="transform: scale(0.6);"/>' + 'Copy';
     document.getElementById('secondText').onclick = () => {
         clipboard = objName;
         ind = i;
@@ -564,7 +563,7 @@ function contextMenuIcon(menu, objName, i){
         thirdText.style.marginTop = '2px';
 		thirdText.style.marginBottom = '2px';
         thirdText.style.position = 'relative';
-        thirdText.innerHTML = '<img src="assets/img/deleteIcon.png" style="transform: scale(0.5);"/>' + 'Elimina';
+        thirdText.innerHTML = '<img src="assets/img/deleteIcon.png" style="transform: scale(0.5);"/>' + 'Delete';
         thirdText.style.color = 'rgb(75, 89, 94)';
         thirdText.style.fontSize = '14px';
         thirdText.style.fontFamily = 'Sans-Serif';
@@ -641,7 +640,7 @@ function contextMenuIcon(menu, objName, i){
             setTimeout(()=>{target.focus();});
         }
         fourthText.style.position = 'relative';
-        fourthText.innerHTML = '<img src="assets/img/renameIcon.png" style="transform: scale(0.5);"/>' + 'Rinomina';
+        fourthText.innerHTML = '<img src="assets/img/renameIcon.png" style="transform: scale(0.5);"/>' + 'Rename';
         fourthText.style.color = 'rgb(75, 89, 94)';
         fourthText.style.fontSize = '14px';
         fourthText.style.fontFamily = 'Sans-Serif';
@@ -970,7 +969,7 @@ function initializeIcons(){
                 blocco1.style.marginBottom = '2px';
                 blocco1.style.borderRadius = '5px';
                 blocco1.appendChild(documentIcon);
-                blocco1.innerHTML += 'Documento';
+                blocco1.innerHTML += 'Document';
                 //blocco1.innerHTML += '\xA0' + '<img src="assets/img/documentIcon.png" style="transform: scale(0.8);"/>' + '\xA0' + 'Documento';
                 blocco1.style.display = 'flex';
                 blocco1.style.alignItems = 'center';
@@ -1074,7 +1073,7 @@ function initializeIcons(){
             //firstText.innerHTML += '\x20';
             //firstText.textContent = '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + ' ▶';
             //firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0' + '<img src="assets/img/newIcon.png" style="transform: scale(0.4);"/>';
-            firstText.innerHTML += '\xA0' + 'Nuovo' + '\xA0' + '\xA0';
+            firstText.innerHTML += '\xA0' + 'New' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + '\xA0' + '\xA0';
             firstText.appendChild(newIcon);
 
             firstText.style.color = 'rgb(75, 89, 94)';

@@ -199,7 +199,7 @@ class Terminal {
         elem1.style.left = 0;
         let elem2 = elem1.appendChild(document.createElement('div'));
         elem2.id = 'pre' + this.curr + this.index;
-        elem2.textContent = 'scraccio@ubuntu:~$' + '\u00A0';
+        elem2.textContent = 'simone@scracciOS:~$' + '\u00A0';
         elem2.style.display = 'inline-block';
         elem2.style.color = 'rgb(145, 234, 55)';
         elem2.style.position = 'relative';
