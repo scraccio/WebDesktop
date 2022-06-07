@@ -1127,7 +1127,7 @@ function initializeIcons(){
                 }
                 secondText.style.position = 'relative';
                 secondText.appendChild(pasteIcon);
-                secondText.innerHTML += 'Incolla';
+                secondText.innerHTML += 'Paste';
                 secondText.style.color = 'rgb(75, 89, 94)';
                 secondText.style.fontSize = '14px';
                 secondText.style.fontFamily = 'Sans-Serif';
