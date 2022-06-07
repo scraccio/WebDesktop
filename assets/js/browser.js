@@ -49,7 +49,7 @@ class Browser {
         iframe.frameBorder = 0;
         //iframe.scrolling = 'no';
         iframe.style.position = 'absolute';
-        iframe.style.width = '101%';    
+        iframe.style.width = '101%';
         iframe.style.height = 'calc(100% - 33px)';
         iframe.style.marginTop = '11px';
         iframe.style.marginLeft = '-4px';

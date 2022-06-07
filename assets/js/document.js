@@ -91,9 +91,10 @@ class Document {
         if ((!localStorage.getItem('document' + this.index) && document.getElementById('textFieldDoc' + this.index).innerHTML != '') || (localStorage.getItem('document' + this.index) && JSON.parse(localStorage.getItem('document' + this.index)) != document.getElementById('textFieldDoc'+this.index).innerHTML )) {
             let confirm = document.createElement('div');
             confirm.className = 'popup';
-            confirm.style.width = '120px';
-            confirm.style.height = '80px';
+            confirm.style.width = '140px';
+            confirm.style.height = '120px';
             confirm.style.position = 'absolute';
+            confirm.style.textAlign = 'center';
             confirm.style.top = '40%';
             confirm.style.left = '40%';
             confirm.style.backgroundColor = 'rgb(240, 240, 240)';
@@ -106,7 +107,7 @@ class Document {
 
             let text = document.createElement('div');
             text.textContent = 'Do you want to save?';
-            text.style.color = 'rgb(75, 89, 94)';
+            text.style.color = 'rgb(14, 14, 14)';
             text.style.position = 'absolute';
             text.style.width = '100px';
             text.style.top = '20%';
@@ -118,7 +119,7 @@ class Document {
             yesRiquadro.className = 'notScaled';
             yesRiquadro.style.width = '30px';
             yesRiquadro.style.height = '30px';
-            yesRiquadro.style.top = '50%';
+            yesRiquadro.style.top = '55%';
             yesRiquadro.style.left = '50%';
             yesRiquadro.style.transform = 'translateX(-150%)';
             yesRiquadro.style.borderRadius = '5px';
@@ -143,7 +144,7 @@ class Document {
 
             let yes = document.createElement('div');
             yes.textContent = 'Yes';
-            yes.style.color = 'rgb(75, 89, 94)';
+            yes.style.color = 'rgb(14, 14, 14)';
             yes.style.position = 'absolute';
             yes.style.top = '50%';
             yes.style.left = '50%';
@@ -155,7 +156,7 @@ class Document {
             noRiquadro.style.position = 'absolute';
             noRiquadro.style.width = '30px';
             noRiquadro.style.height = '30px';
-            noRiquadro.style.top = '50%';
+            noRiquadro.style.top = '55%';
             noRiquadro.style.left = '50%';
             noRiquadro.style.transform = 'translateX(50%)';
             noRiquadro.style.borderRadius = '5px';
@@ -179,7 +180,7 @@ class Document {
 
             let no = document.createElement('div');
             no.textContent = 'No';
-            no.style.color = 'rgb(75, 89, 94)';
+            no.style.color = 'rgb(14, 14, 14)';
             no.style.position = 'absolute';
             no.style.top = '50%';
             no.style.left = '50%';
@@ -326,12 +327,13 @@ function newDocument(num) {
             document.getElementById('containerDesktop').appendChild(error);
 
             let errorMessage = document.createElement('div');
-            errorMessage.textContent = 'Impossibile aprire \'' + icondiv.textContent + '\':';
-            errorMessage.innerHTML += '<br>File già aperto';
+            errorMessage.textContent = 'Cannot open \'' + icondiv.textContent + '\':';
+            errorMessage.innerHTML += '<br><br>The file is already open';
+            errorMessage.style.textAlign = 'center';
             errorMessage.style.color = 'black';
             errorMessage.style.position = 'absolute';
-            errorMessage.style.top = '20%';
-            errorMessage.style.left = '20%';
+            errorMessage.style.top = '15%';
+            errorMessage.style.left = '5%';
             errorMessage.style.userSelect = 'none';
             error.appendChild(errorMessage);
 
