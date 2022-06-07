@@ -231,7 +231,18 @@ class Terminal {
                 this.p = this.curr + 1;
             }
             this.words = this.string.split(" ");
-            if (this.words[0] == "sum" && this.words.length == 3 && !isNaN(this.words[1]) && !isNaN(this.words[2])) {
+            if (this.words[0] == "help" && this.words.length == 1) {
+                let elem = document.getElementById('container' + this.curr + this.index).appendChild(document.createElement('div'));
+                elem.innerHTML +=
+                '- sum [num1] [num2]<br>' +
+                '- subtract [num1] [num2]<br>' +
+                '- product [num1] [num2]<br>' +
+                '- divide [num1] [num2]<br>' +
+                '- echo [string]<br>' +
+                '- clear<br>' +
+                '- batman<br>';
+            }
+            else if (this.words[0] == "sum" && this.words.length == 3 && !isNaN(this.words[1]) && !isNaN(this.words[2])) {
                 let elem = document.getElementById('container' + this.curr + this.index).appendChild(document.createElement('div'));
                 elem.textContent += parseInt(this.words[1]) + parseInt(this.words[2]);
             }

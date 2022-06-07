@@ -34,7 +34,7 @@ class Fishy {
         containerFishy.style.width = '50%';
         containerFishy.style.height = '55%';
         containerFishy.style.position = 'absolute';
-        containerFishy.style.left = '20%';
+        containerFishy.style.left = '27%';
         containerFishy.style.top = '20%';
         containerFishy.style.borderRadius = '5px';
         containerFishy.style.overflow = 'hidden';
@@ -55,6 +55,68 @@ class Fishy {
         iframe.style.visibility = 'hidden';
         document.body.style.cursor = 'wait';
         iframe.onload = () => {
+
+            let div = document.createElement('div');
+            div.id = 'instructionsDiv';
+            div.className = 'popup';
+            div.style.backgroundColor = 'rgb(240, 240, 240)';
+            div.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+            div.style.position = 'absolute';
+            div.style.width = '700px';
+            div.style.height = '300px';
+            div.style.top = '30%';
+            div.style.left = '30%';
+            div.style.zIndex = 10;
+            div.style.transform = 'translate(-50%,-50%)';
+            div.style.borderRadius = '5px';
+            document.body.appendChild(div);
+
+            let instructions = document.createElement('div');
+            instructions.id = 'instructions';
+            instructions.textContent = 'Press the \'WASD\' keys to move, eat smaller fishes to grow!';
+            instructions.style.fontSize = '30px';
+            instructions.style.fontFamily = 'Sans-serif';
+            instructions.style.textAlign = 'center';
+            instructions.style.color = 'rgb(14, 14, 14)';
+            instructions.style.position = 'absolute';
+            instructions.style.width = '500px';
+            instructions.style.top = '40%';
+            instructions.style.left = '50%';
+            instructions.style.transform = 'translate(-50%,-50%)';
+            instructions.style.userSelect = 'none';
+            div.appendChild(instructions);
+
+            let confirm = document.createElement('div');
+            confirm.id = 'confirm';
+            confirm.style.color = 'rgb(14, 14, 14)';
+            confirm.textContent = 'Got it!';
+            confirm.style.backgroundColor = 'rgb(240, 240, 240)';
+            confirm.style.boxShadow = '3px 3px 10px rgb(14, 14, 14)';
+            confirm.style.fontSize = '20px';
+            confirm.style.fontFamily = 'Sans-serif';
+            confirm.style.position = 'absolute';
+            confirm.style.textAlign = 'center';
+            confirm.style.userSelect = 'none';
+            confirm.style.width = '80px';
+            confirm.style.height = '30px';
+            confirm.style.top = '75%';
+            confirm.style.left = '50%';
+            confirm.style.transform = 'translate(-50%,-50%)';
+            confirm.style.borderRadius = '5px';
+            confirm.addEventListener('click', ()=>{
+                div.addEventListener('animationend', ()=>{
+                    div.remove();
+                })
+                div.className = 'antiPopup';
+            });
+            confirm.onmouseover = ()=>{
+                confirm.style.backgroundColor = 'rgb(220, 220, 220)';
+            }
+            confirm.onmouseout = ()=>{
+                confirm.style.backgroundColor = 'rgb(240, 240, 240)';
+            }
+            div.appendChild(confirm);
+            
             document.body.style.cursor = 'default';
             containerFishy.className = 'container';
             containerFishy.classList.add('popupProgram');
