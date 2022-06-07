@@ -55,8 +55,9 @@ class Browser {
         iframe.style.marginLeft = '-4px';
         iframe.style.top = '23px';
         iframe.style.visibility = 'hidden';
+        document.body.style.cursor = 'wait';
         iframe.onload = () => {
-            
+            document.body.style.cursor = 'default';
             if(!containerBrowser.className.includes('container')){
                 containerBrowser.classList.add('container');
             }
